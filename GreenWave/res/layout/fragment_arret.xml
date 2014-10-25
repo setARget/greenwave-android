@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:id="@+id/ligneActuelle"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:background="@drawable/layer_list_ligne">
+		
+       	 		<TextView
+		        		android:id="@+id/pasDeLigne"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:textColor="@color/textSecondaire"
+		            	android:textSize="16sp"
+		            	android:layout_centerInParent="true"
+		            	android:text="@string/pasDeLigne">
+		    	</TextView>	
+    
+       	    	<TextView
+		        		android:id="@+id/numero"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+		            	android:textSize="32sp"
+		            	android:layout_marginTop="4dp"
+		            	android:layout_marginBottom="4dp"
+		            	android:layout_marginRight="4dp"
+		            	android:layout_marginLeft="4dp">
+		    	</TextView>	
+		    	
+       	    	<ImageButton
+    	    	    android:id="@+id/nearest"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:visibility="gone"
+					android:src="@drawable/ic_action_place"
+					android:layout_below="@+id/numero">
+    	    	    </ImageButton>
+		    	
+    	    	<RelativeLayout 
+			        	android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_toRightOf="@+id/numero">
+				    	<TextView
+						        android:id="@+id/sens1"
+						        android:layout_width="match_parent"
+						        android:layout_height="wrap_content"
+						        android:textColor="@color/textSecondaire"
+				            	android:textSize="16sp">
+				    	</TextView>
+				    	<TextView
+						        android:id="@+id/sens2"
+						        android:layout_width="match_parent"
+						        android:textColor="@color/textSecondaire"
+						        android:layout_height="wrap_content"
+				            	android:textSize="16sp"
+				            	android:layout_below="@+id/sens1">
+				    	</TextView>
+				</RelativeLayout>
+				<ImageView
+		         	android:id="@+id/star"
+		         	android:layout_width="wrap_content"
+				 	android:layout_height="wrap_content"
+				 	android:layout_alignParentRight="true"
+					android:src="@drawable/star_full"
+					android:visibility="invisible">
+	     	</ImageView>
+		</RelativeLayout>
+				
+
+
+    			<ListView
+			       	android:id="@+id/listArret"
+			        android:layout_width="fill_parent"
+    				android:layout_height="fill_parent"
+    				android:layout_below="@+id/ligneActuelle"
+			  		android:divider="@null"
+					android:dividerHeight="10dp"
+					android:listSelector="@android:color/transparent" 
+					android:cacheColorHint="@android:color/transparent"
+					android:headerDividersEnabled="true"
+					android:footerDividersEnabled="true"
+					android:layout_marginLeft="10dp"
+					android:layout_marginRight="10dp">
+    			</ListView>
+    
+
+</RelativeLayout>

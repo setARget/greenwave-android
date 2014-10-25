@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+      
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    			  android:id="@+id/scrollview" 
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content">
+
+    <HorizontalScrollView 
+        		android:id="@+id/hscroll" 
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content">
+                  
+        
+                   
+					<RelativeLayout
+					android:id="@+id/relativelayout" 
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content" 
+				    android:orientation="vertical"
+				    android:scrollbars="vertical"
+				    android:scrollbarAlwaysDrawVerticalTrack="true">
+				    
+					    					    						
+					    <RelativeLayout
+								    android:id="@+id/loadingPanel"
+								    android:layout_width="match_parent"
+								    android:layout_height="match_parent"
+								    android:gravity="center" 
+								    android:visibility="gone"
+								    android:layout_centerInParent="true">
+								
+								    <ProgressBar
+								        android:id="@+id/loading"
+								        android:layout_width="wrap_content"
+								        android:layout_height="wrap_content"
+								        android:indeterminate="true"
+								        android:layout_centerInParent="true"/>
+								    <TextView 
+							            android:id="@+id/operation"					         
+							            android:layout_width="wrap_content"
+								        android:layout_height="wrap_content"
+							            android:layout_below="@+id/loading"
+							            android:layout_centerHorizontal="true"
+									  	android:textColor="@color/textSecondaire"
+						            	android:textSize="12sp"
+					            	/>
+						</RelativeLayout>
+												    	
+					    <RadioGroup
+					          android:id="@+id/group"
+							  android:layout_width="wrap_content"
+							  android:layout_height="wrap_content"
+							  android:orientation="vertical" 
+							  >
+								  <RadioButton
+								    android:id="@+id/sens1"
+								    android:layout_width="wrap_content"
+								    android:layout_height="wrap_content"
+								    android:textColor="@color/textSecondaire"/>
+								  <RadioButton
+								    android:id="@+id/sens2"
+								    android:layout_width="wrap_content"
+								    android:layout_height="wrap_content"
+								    android:textColor="@color/textSecondaire"  />
+						</RadioGroup>
+						
+					    <LinearLayout 
+					        	android:id="@+id/layoutResume"
+					        	android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+							  	android:orientation="horizontal"
+							  	android:layout_below="@id/group"
+							  	android:visibility="invisible">
+								  
+					        <TextView 
+					            android:id="@+id/previous"
+							  	android:layout_width="wrap_content"
+							  	android:layout_height="wrap_content"
+							  	android:textColor="@color/textSecondaire"
+				            	android:textSize="12sp"
+					            />
+					        <TextView 
+					            android:id="@+id/next"
+							  	android:layout_width="wrap_content"
+							  	android:layout_height="wrap_content"
+							  	android:textColor="@color/textSecondaire"
+				            	android:textSize="16sp"
+					            />
+					        <TextView 
+					            android:id="@+id/afterNext"
+							  	android:layout_width="wrap_content"
+							  	android:layout_height="wrap_content"
+							  	android:textColor="@color/textSecondaire"
+				            	android:textSize="12sp"
+					            />
+					        
+					    </LinearLayout>
+					    
+					    <TableLayout
+					        android:id="@+id/table"
+					        android:layout_width="match_parent"
+					        android:layout_height="match_parent"
+					        android:layout_below="@id/layoutResume"
+					        android:gravity="center_horizontal"
+					        android:padding="10dip">
+  
+  						<FrameLayout 
+  						    android:id="@android:id/tabcontent"
+   							android:layout_width="fill_parent" 
+   							android:layout_height="fill_parent" />
+  
+  
+						</TableLayout>
+						
+					</RelativeLayout>
+	</HorizontalScrollView>
+	</ScrollView>

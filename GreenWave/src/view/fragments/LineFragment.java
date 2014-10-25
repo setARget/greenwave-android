@@ -1,0 +1,197 @@
+package view.fragments;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+import view.activities.Home;
+import view.custom.LineList;
+import android.app.SearchManager;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
+
+import com.wavon.greenwave.R;
+
+import control.Globale;
+import control.listeners.actions.GreenOnQueryTextListener;
+import control.listeners.item.LineClickListener;
+import datas.Ligne;
+import datas.database.ligne.LignesDAO;
+
+/**
+ * LineFragment is a Fragment Object which shows up a list where you can select a bus line.
+ * © Copyright 2014 Antoine Sauray
+ * @author Antoine Sauray
+ * @version 0.1
+ */
+public class LineFragment extends Fragment{
+	
+	private View v;
+	private ListView list;
+	private LineList listAdapter;
+	private Home home;	// Current activity
+
+	public static LineFragment  newInstance(String chaine) {
+		LineFragment  fragment = new LineFragment ();
+	    Bundle args = new Bundle();
+	    args.putString("LIGNE", chaine);
+	    fragment.setArguments(args);
+	    return fragment;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedState) {
+	    super.onActivityCreated(savedState);
+		registerForContextMenu(list);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+		Bundle savedInstanceState) {
+		v = inflater.inflate(R.layout.fragment_ligne, container, false); 
+		home = (Home) this.getActivity();
+		initInterface();
+		attachReactions();
+    	setHasOptionsMenu(true);
+		return v;
+	}
+	 @Override
+	 public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {	 
+  	   	inflater.inflate(R.menu.line_menu, menu);
+  	   	
+  	  MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+  	  SearchManager searchManager = (SearchManager) getActivity().getSystemService( Context.SEARCH_SERVICE );
+  	  SearchView search = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+
+  	search.setSearchableInfo(searchManager.getSearchableInfo(home.getComponentName()));
+  	//search.setSubmitButtonEnabled(true);
+
+
+  	int id = search.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+  	TextView textView = (TextView) search.findViewById(id);
+  	textView.setTextColor(Color.WHITE);
+  	textView.setHintTextColor(Color.WHITE);
+  	
+  	search.setOnQueryTextListener(new GreenOnQueryTextListener(list));
+  	    
+  	super.onCreateOptionsMenu(menu, inflater);
+	 }
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.d("OnResume()", "Ligne");
+	}
+	   
+	@Override
+	public void setUserVisibleHint(boolean visible){
+		super.setUserVisibleHint(visible);
+		if (visible && isResumed()){
+			//Only manually call onResume if fragment is already visible
+			//Otherwise allow natural fragment lifecycle to call onResume
+			onResume();
+		}
+	}
+	
+	/**
+	 * Initializes the graphical interface of the fragment.
+	 */
+	private void initInterface(){
+		list = (ListView) v.findViewById(R.id.list);
+		list.setTextFilterEnabled(true);
+	}
+	
+	/**
+	 * Sets the reactions of the control elements
+	 */
+	private void attachReactions(){
+		ArrayList<Ligne> lignes = new ArrayList<Ligne>(Globale.engine.getEntreprise().getLignes().values());
+		listAdapter = new LineList(getActivity(), lignes, home);
+		list.setAdapter(listAdapter);
+		list.setOnItemClickListener(new LineClickListener(home));
+	}
+	
+	/**
+	 * Accessor 
+	 * @return ListView the list which contains the bus lines.
+	 */
+	public ListView getList(){return list;}
+	
+	/**
+	 * @return String the String which describes the Object
+	 */
+	public String toString(){
+		return "Ligne";
+	}
+	
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+	        ContextMenuInfo menuInfo) {
+				super.onCreateContextMenu(menu, v, menuInfo);
+	    
+			    menu.setHeaderTitle("Gestion des Favoris");
+			    AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+				Ligne l = (Ligne) list.getItemAtPosition(info.position);
+				if(l.getFavorite()==0)
+				menu.add("Ajouter "+l.toString()+" aux favoris");
+				else
+					menu.add("Retirer "+l.toString()+" des favoris");
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		if (getUserVisibleHint()) {
+	    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+	            .getMenuInfo();
+	    Ligne l = (Ligne) list.getItemAtPosition(info.position);
+	    ArrayList<Ligne> lignes = new ArrayList<Ligne>(Globale.engine.getEntreprise().getLignes().values());
+	    if(l.getFavorite()==0){
+		    l.setFavorite(1);	
+		}
+		else{
+			l.setFavorite(0);
+		}
+	    Collections.sort(lignes);
+	    listAdapter = new LineList(v.getContext(), lignes, home);
+	    list.setAdapter(listAdapter);
+	    list.invalidate();
+	      
+	    Thread t = new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				LignesDAO dao = new LignesDAO(home);
+	    		dao.open();
+	    		dao.save(Globale.engine.getEntreprise().getLignes());
+	    		dao.close();
+			}
+	    	
+	    });
+	    t.start();
+	    
+
+		
+	    return true;
+	}
+		
+		return false;
+	}
+	
+}

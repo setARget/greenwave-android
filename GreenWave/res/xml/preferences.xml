@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" 
+		android:title="Préférences">
+		
+		<PreferenceCategory
+        android:title="Carte">
+		    <ListPreference
+		        android:id="@+id/pref_map_type"
+		        android:key="pref_map_type"
+		        android:title="@string/pref_map_title"
+		        android:dialogTitle="@string/pref_map_title"
+		        android:entries="@array/listOptions"
+		        android:entryValues="@array/listValues"
+		        android:defaultValue="Normale" />
+		    
+		    <CheckBoxPreference
+            android:title="Utiliser le service Google Places"
+            android:defaultValue="true"
+            android:key="pref_gplaces" 
+            android:summaryOn="Activé" 
+            android:summaryOff="Désactivé"/>
+		</PreferenceCategory>
+	</PreferenceScreen>

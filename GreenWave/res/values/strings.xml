@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Green Wav</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Réglages</string>
+    <string name="confirm">Confirmer</string>
+    <string name="cancel">Annuler</string>
+    <string name="ctrl">Ctrl logo</string>
+    <string name="companies">Companies de transport</string>
+    <string name="twitter_error">Aucun flux Twitter disponible</string>
+    <string name="favoris">Favoris</string>
+    <string name="historique">Historique</string>
+    <string name="autre">Autres</string>
+    <string name="pasDeLigne">Aucune ligne selectionnée</string>
+    <string name="lastBus">Dernier Bus</string>
+    <string name="action_search">Rechercher</string>
+    <string name="drawer_open">Ouvrir</string>
+    <string name="drawer_close">Fermer</string>
+    <string name="pref_map_summmary">Type de carte</string>
+    <string name="pref_map_title">Type de carte</string>
+
+</resources>
