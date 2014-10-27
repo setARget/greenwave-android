@@ -35,7 +35,7 @@ import control.listeners.button.NearestStopOnClickListener;
 import control.listeners.item.StopClickListener;
 import datas.Arret;
 import datas.Ligne;
-import datas.database.arret.ArretsDAO;
+import db.internal.ArretsDAO;
 
 /**
  * StopFragment is a Fragment which displays a list of bus stops.
@@ -97,10 +97,10 @@ private Home home;	// Current activity
 			nb.setBackgroundColor(home.getResources().getColor(l.getColor()));
 			
 			TextView sens1 = (TextView) v.findViewById(R.id.sens1);
-			sens1.setText(l.getAller());
+			sens1.setText(l.getDirection1());
 			
 			TextView sens2 = (TextView) v.findViewById(R.id.sens2);
-			sens2.setText(l.getRetour());
+			sens2.setText(l.getDirection2());
 			
 			if(Globale.engine.getLocation() != null){
 				v.findViewById(R.id.nearest).setVisibility(View.VISIBLE);

@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 import control.Globale;
-import control.asynctasks.NearbyStops;
+import datas.utility.NearbyStops;
 
 /**
  * © Copyright 2014 Antoine Sauray

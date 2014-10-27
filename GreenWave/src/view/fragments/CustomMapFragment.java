@@ -3,6 +3,7 @@ package view.fragments;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -14,7 +15,6 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,18 +29,21 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.wavon.greenwave.R;
 
 import control.Globale;
 import control.KiceoControl;
-import control.asynctasks.GetPlaces;
 import datas.Arret;
 import datas.Ligne;
+import db.external.google.GetPlaces;
 
 /**
  * MapFragment is a Fragment Object which displays a map.
@@ -48,24 +51,26 @@ import datas.Ligne;
  * @author Antoine Sauray
  * @version 0.2.1
  */
-public class CustomMapFragment extends Fragment{
+public class CustomMapFragment extends SupportMapFragment{
 
 	 private static GoogleMap gMap;
 	 
 	 private ArrayAdapter<Ligne> adapter2;
 	 private ArrayAdapter<Arret> adapter3;
 	 
-	 private TreeMap<String, Marker> markerHash;
+	 private static TreeMap<String, Marker> markerHash;
 	 private MarkerOptions[] places;
+	 private static HashMap<String, Polyline> polyHash;
 	 private final int MAX_PLACES = 20;
 	 
 	 private View v;
 	 private Home home;	// Current activity
 	 SharedPreferences sharedPref;
-	 
+
 	 @Override
 	 public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		Bundle savedInstanceState) {
+		 super.onCreateView(inflater, container, savedInstanceState);
 		 Log.d("OnCreateView Map", "Started");
 		 v = inflater.inflate(R.layout.fragment_map, container, false);
 		 
@@ -78,12 +83,7 @@ public class CustomMapFragment extends Fragment{
 		 gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(47.748122, -3.364546), 14.0f) );
 		 
 		 sharedPref = PreferenceManager.getDefaultSharedPreferences(home);
-		 //
-		 //gMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-		 //gMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-      
-
-	      
+ 
 	      initInterface();
 	      attachReactions();
 	      setHasOptionsMenu(true);
@@ -242,6 +242,7 @@ public class CustomMapFragment extends Fragment{
    
 	 private void initInterface(){
 		 markerHash = Globale.engine.getHash();
+		 polyHash = new HashMap<String, Polyline>();
 		 Globale.engine.setPlacesMarkers(new Marker[MAX_PLACES]);
 	 }
    
@@ -255,13 +256,11 @@ public class CustomMapFragment extends Fragment{
 	 public ArrayAdapter<Ligne> getLigneAdapter(){return adapter2;}
 	
 	 public ArrayAdapter<Arret> getArretAdapter(){return adapter3;}
-	
-	 public GoogleMap getMap(){return gMap;}
 	 
 	 public TreeMap getMarkers(){return this.markerHash;}
 	
 	 public String toString(){
-		 return Globale.engine.getEntreprise().toString();
+		 return Globale.engine.getReseau().toString();
 	 }
 	
 	 private void updateMarkerDistance(){
@@ -298,16 +297,22 @@ public class CustomMapFragment extends Fragment{
 		}
 		 gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 14.0f));
 	 }
+	 
+	 public static void drawPolyline(LatLng depart, LatLng arrivee){
+		 Polyline poly =  polyHash.get("itineraire");
+		 if(poly!=null){poly.remove();}
+		 polyHash.put("itineraire", gMap.addPolyline(new PolylineOptions()
+		    .add(depart, arrivee)
+		    .width(8)
+		    .color(Color.CYAN)));
+	 }
 
-	 private void addMarkers(){
+	 private static void addMarkers(){
 		 Iterator<Arret> it = Globale.engine.getLigneCourante().getArrets().values().iterator();
 			BitmapDescriptor defaultColor=Globale.engine.getLigneCourante().getMarkerColor();
 			gMap.clear();
 			markerHash.clear();
-			 //PolylineOptions polylineOptions = new PolylineOptions();
-			 //ArrayList<LatLng> points = new ArrayList<LatLng>();
-             //polylineOptions.color(Color.RED);
-             //polylineOptions.width(3);    
+
 			if(Globale.engine.getLocation() != null){
 				Log.d("AddMarkers", "Location activée");
 				Location currentLocation = Globale.engine.getLocation();
@@ -315,7 +320,7 @@ public class CustomMapFragment extends Fragment{
 				while(it.hasNext()){
 					
 					Arret a = (Arret) it.next();
-		            //points.add(a.getLatLng());
+
 					markerHash.put(a.toString(), gMap.addMarker(new MarkerOptions()
 				        	.position(a.getLatLng())
 				        	.alpha(0.7f)
@@ -328,7 +333,6 @@ public class CustomMapFragment extends Fragment{
 				while(it.hasNext()){
 					
 					Arret a = (Arret) it.next();
-					//points.add(a.getLatLng());
 					markerHash.put(a.toString(), gMap.addMarker(new MarkerOptions()
 				        	.position(a.getLatLng())
 				        	.alpha(0.7f)
@@ -336,10 +340,7 @@ public class CustomMapFragment extends Fragment{
 				        	.icon(defaultColor)));	
 				}
 			}
-            // Setting points of polyline
-            //polylineOptions.addAll(points);
-            // Adding the polyline to the map
-            //gMap.addPolyline(polylineOptions);
+
 	 }
 
 

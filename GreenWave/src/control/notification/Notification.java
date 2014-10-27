@@ -106,24 +106,24 @@ public class Notification {
 			arret.getLignesDesservant();
 			Iterator<String> it = arret.getLignesDesservant().iterator();
 			while(it.hasNext()){
-				Ligne ligne = Globale.engine.getEntreprise().getLignes().get(it.next());	//attention ! changer lignes en lignesfavorites
+				Ligne ligne = Globale.engine.getReseau().getLignes().get(it.next());	//attention ! changer lignes en lignesfavorites
 				// on récupère la ligne. Si elle n'est pas un favoris alors elle n'est pas dans l'arraylist et elle est donc null
 				if(ligne != null){
 					csvReader = new CSVReader(new BufferedReader(new FileReader(path+ligne.getNumero()+".csv")));
 					Log.d("CSV OK","CSV OUVERT");
 					String [] listeArrets = csvReader.readNext();
-					Log.d("Arret à trouver", arret.toString()+"_"+ligne.getAller());
-					Log.d("Arret à trouver", arret.toString()+"_"+ligne.getRetour());
+					Log.d("Arret à trouver", arret.toString()+"_"+ligne.getDirection1());
+					Log.d("Arret à trouver", arret.toString()+"_"+ligne.getDirection2());
 					
 					while(trouve != 2 && i<listeArrets.length){
 						Log.d("Arret["+i+"]", listeArrets[i]+"");
-						if(listeArrets[i].equals( arret.toString()+"_"+ligne.getAller())){
+						if(listeArrets[i].equals( arret.toString()+"_"+ligne.getDirection1())){
 							trouve++;					
 							horairesAller = getHoraires(csvReader, i);				
 							Log.d("Dernière horaire aller:", horairesAller[horairesAller.length-1]);
 							i++;
 						}
-						else if(listeArrets[i].equals( arret.toString()+"_"+ligne.getRetour())){
+						else if(listeArrets[i].equals( arret.toString()+"_"+ligne.getDirection2())){
 							trouve++;
 							horairesRetour = getHoraires(csvReader, i);
 							Log.d("Dernière horaire Retour:", horairesRetour[horairesRetour.length-1]);

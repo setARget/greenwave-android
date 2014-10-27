@@ -36,7 +36,7 @@ public class DrawerItemClickListener implements OnItemClickListener {
 		
 			case 0:
 				// Selectionner mon réseau
-				intent = new Intent(home, view.activities.SelectCompany.class);
+				intent = new Intent(home, view.activities.SelectionReseau.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				home.startActivity(intent);
 			break;

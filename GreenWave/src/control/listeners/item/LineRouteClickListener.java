@@ -40,7 +40,7 @@ public class LineRouteClickListener implements Globale, OnItemClickListener, Run
 		// TODO Auto-generated method stub
 		
 			s = (String) parent.getItemAtPosition(position);
-			l = Globale.engine.getEntreprise().getLignes().get(s);
+			l = Globale.engine.getReseau().getLignes().get(s);
 			if(l==null){
 				//l = Globale.engine.getEntreprise().getLignesFavorites().get(s);
 			}

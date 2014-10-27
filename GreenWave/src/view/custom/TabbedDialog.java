@@ -10,7 +10,7 @@ import android.widget.TableLayout;
 import com.wavon.greenwave.R;
 
 import control.Globale;
-import control.asynctasks.UpdateTimes;
+import datas.utility.UpdateTimes;
 
 /**
  * Dialog with bus times
@@ -56,8 +56,8 @@ public class TabbedDialog extends Dialog{
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) r.getLayoutParams();
 			params.addRule(RelativeLayout.BELOW, R.id.group);
 
-			CharSequence s1 = Globale.engine.getLigneCourante().getAller();
-			CharSequence s2 = Globale.engine.getLigneCourante().getRetour();
+			CharSequence s1 = Globale.engine.getLigneCourante().getDirection1();
+			CharSequence s2 = Globale.engine.getLigneCourante().getDirection2();
 			
 			sens1 = (RadioButton) findViewById(R.id.sens1);
 			sens1.setText("Je vais à "+s1);
@@ -74,11 +74,11 @@ public class TabbedDialog extends Dialog{
             	int id = group.getCheckedRadioButtonId();
             	if(id == R.id.sens1){
             		// 1er cas donc premier sens
-            		updateTimes(Globale.engine.getLigneCourante().getAller()); 
+            		updateTimes(Globale.engine.getLigneCourante().getDirection1()); 
             	}
             	else if (id == R.id.sens2){
             		// 2eme cas c'est donc le deuxième sens
-            		updateTimes(Globale.engine.getLigneCourante().getRetour()); 
+            		updateTimes(Globale.engine.getLigneCourante().getDirection2()); 
             	}
             } 
         }); 

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import view.activities.Home;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -45,8 +46,8 @@ public class StopList extends ArrayAdapter<Arret> {
 	}
 	
 	protected void cloneItems(ArrayList<Arret> items) {
-        for (Iterator iterator = items.iterator(); iterator.hasNext();) {
-        	Arret a = (Arret) iterator.next();
+        for (Iterator<Arret> iterator = items.iterator(); iterator.hasNext();) {
+        	Arret a = iterator.next();
             originalList.add(a);
         }
     }
@@ -94,7 +95,7 @@ public class StopList extends ArrayAdapter<Arret> {
     }   
 	
 	private class ListFilter extends Filter {
-        protected FilterResults performFiltering(CharSequence prefix) {
+        @SuppressLint("DefaultLocale") protected FilterResults performFiltering(CharSequence prefix) {
             // Initiate our results object
             FilterResults results = new FilterResults();
 

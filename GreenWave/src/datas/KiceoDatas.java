@@ -2,7 +2,6 @@ package datas;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.TreeMap;
 
 import android.content.Context;
@@ -10,11 +9,10 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-import datas.entreprises.Ctrl;
-import datas.entreprises.Kiceo;
+import datas.reseau.Lorient;
+import datas.reseau.Vannes;
 import datas.utility.TravelHelper;
 
 /**
@@ -32,10 +30,10 @@ public class KiceoDatas{
     private String label;
     
     /** The current Company selected*/
-    private Entreprise entreprise;
+    private Reseau reseau;
     
     /** Contains the companies available in the application*/
-    private TreeMap<String, Entreprise> listeEntreprises;
+    private TreeMap<String, Reseau> listeReseaux;
 
     /** The current Stop selected*/
     private Arret arretCourant;   
@@ -73,14 +71,14 @@ public class KiceoDatas{
 	 *
 	 */
     public KiceoDatas(){
-    	this.label = new String ( "BusWav" );
-    	listeEntreprises = new TreeMap<String, Entreprise>();
+    	this.label = new String ( "Green Wav'" );
+    	listeReseaux = new TreeMap<String, Reseau>();
     	
-    	Ctrl ctrl = new Ctrl();
-    	Kiceo kiceo = new Kiceo();
+    	Lorient lorient = new Lorient();
+    	Vannes vannes = new Vannes();
     	
-    	listeEntreprises.put(ctrl.toString(), ctrl);
-    	listeEntreprises.put(kiceo.toString(), kiceo);
+    	listeReseaux.put(lorient.toString(), lorient);
+    	listeReseaux.put(vannes.toString(), vannes);
     	
     	hash  = new TreeMap<String, Marker>();
 
@@ -99,19 +97,23 @@ public class KiceoDatas{
      * @param e 
      */
     
-    public Entreprise getEntreprise(){
-    	return entreprise;
+    public Reseau getReseau(){
+    	return reseau;
     }
+    
+	public Reseau getReseau(String id){
+		return listeReseaux.get(id);
+	}
     
     public TravelHelper getTravelHelper(){
     	return travelHelper;
     }
-    public TreeMap<String, Entreprise> getListeEntreprises(){return listeEntreprises;}
+    public TreeMap<String, Reseau> getListeEntreprises(){return listeReseaux;}
     
-    public void setEntreprise(Entreprise e, Context c){
+    public void setReseau(Reseau e, Context c){
     	Log.d("Nouvelle entreprise", e.toString());
-    	entreprise = e;
-		entreprise.charger(c);
+    	reseau = e;
+    	reseau.charger(c);
     }
     
     public ArrayList<Arret> getListeArretsDesservis(){
@@ -166,8 +168,6 @@ public class KiceoDatas{
 	public LocationManager getLocationManager(){return this.locationManager;}
 	
 	public void setLocationManager(LocationManager locationManager){this.locationManager=locationManager;}
-	
-	public Entreprise getEntreprise(String id){return listeEntreprises.get(id);}
 	
 	public String getPlaceToSearch(){return placeToSearch;}
 	

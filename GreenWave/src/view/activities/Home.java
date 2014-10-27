@@ -28,7 +28,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapsInitializer;
 import com.wavon.greenwave.R;
 
@@ -40,6 +39,7 @@ import control.listeners.navigation.KiceoTabListener;
 import control.listeners.navigation.SimpleOnChangePageListener;
 import control.services.TimeService;
 import datas.utility.TravelHelper;
+import db.external.didier.GetArrets;
 
 
 /**
@@ -85,6 +85,7 @@ public class Home extends FragmentActivity implements Globale{
         Log.d("Kiceo - Vannes Agglo", "L'application a démarrée");
         
         startService(new Intent(this, TimeService.class));
+    	//new GetArrets(Globale.engine.getReseau("VANNES"), Globale.engine.getLigneCourante()).execute();
     }
     
     private void drawerSetup(){
@@ -93,7 +94,7 @@ public class Home extends FragmentActivity implements Globale{
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         
         ArrayList<DrawerItem> dataList = new ArrayList<DrawerItem>();
-        dataList.add(new DrawerItem("", Globale.engine.getEntreprise().getImage()));
+        dataList.add(new DrawerItem("", Globale.engine.getReseau().getImage()));
         dataList.add(new DrawerItem("A propos", R.drawable.ic_action_about));
         dataList.add(new DrawerItem("Réglages", R.drawable.ic_action_settings));
         dataList.add(new DrawerItem("Aide", R.drawable.ic_action_help));

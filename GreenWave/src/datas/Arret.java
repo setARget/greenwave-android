@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
  * @author Antoine Sauray & Alexis Robin
  * @version 0.2
  */
-public class Arret implements Comparable{
+public class Arret implements Comparable<Arret>{
 	
 	// ----------- ATTRIBUTES
 	
@@ -28,6 +28,23 @@ public class Arret implements Comparable{
 	
 	
 	// ----------- CONSTRUTORS
+	
+	public Arret(int id, String nom, LatLng latLng, ArrayList<String> lignesDesservant){
+		this.idBdd = nbArrets;
+		this.lignesDesservant = lignesDesservant; 
+		this.latLng=latLng;
+		this.nom = nom;
+		this.distance=-1;
+		this.nbVues = 0;
+		this.prefRang = 0;
+
+		
+		this.location=new Location(nom);
+		this.location.setLatitude(latLng.latitude);
+		this.location.setLongitude(latLng.longitude);
+		favorite=false;
+		nbArrets++;
+	}
 	
 	public Arret(LatLng latLng, String nom, String ville, ArrayList<String> lignesDesservant){
 		this.idBdd = nbArrets;
@@ -103,24 +120,24 @@ public class Arret implements Comparable{
 		return nom;
 	}
 
+
 	@Override
-	public int compareTo(Object another) {
+	public int compareTo(Arret another) {
 		// TODO Auto-generated method stub
-		Arret other = (Arret) another;
 		int ret=-1;
 		
-		if(this.favorite && !other.favorite){
+		if(this.favorite && !another.favorite){
 			ret=-1;
 		}
 		
-		else if(other.favorite && !this.favorite){
+		else if(another.favorite && !this.favorite){
 			ret=1;
 		}
 		else{
-			if(this.nom.charAt(0) > other.nom.charAt(0)){
+			if(this.nom.charAt(0) > another.nom.charAt(0)){
 				ret=1;
 			}
-			else if(this.nom.charAt(0)==other.nom.charAt(0)){
+			else if(this.nom.charAt(0)==another.nom.charAt(0)){
 				ret=0;
 			}
 		}

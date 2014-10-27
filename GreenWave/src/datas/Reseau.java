@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import datas.database.arret.ArretsDAO;
-import datas.database.ligne.LignesDAO;
+import db.internal.ArretsDAO;
+import db.internal.LignesDAO;
 
 import android.content.Context;
 import android.util.Log;
@@ -16,19 +16,30 @@ import android.util.Log;
  * @author Antoine Sauray
  * @version 0.1
  */
-public abstract class Reseau {
+public class Reseau implements Comparable<Reseau>{
 
 	protected String nom;
+	private int id;
+	private String image;
 	
-	protected TreeMap<String, Ligne> lignes;
+	protected HashMap<String, Ligne> lignes;
 	protected HashMap<String, Arret> arrets;
 	
 	private final String twitterTimeline;
 	
+	public Reseau(int id, String nom, String twitterTimeline, String img){
+		this.nom=nom;
+		this.id=id;
+		this.image=img;
+		this.twitterTimeline=twitterTimeline;
+		lignes = new HashMap<String, Ligne>();
+		arrets = new HashMap<String, Arret>();
+	}
+	
 	public Reseau(String nom, String twitterTimeline){
 		this.nom=nom;
 		this.twitterTimeline=twitterTimeline;
-		lignes = new TreeMap<String, Ligne>();
+		lignes = new HashMap<String, Ligne>();
 		arrets = new HashMap<String, Arret>();
 	}
 	
@@ -69,11 +80,15 @@ public abstract class Reseau {
 		synchronize(c);
 	}
 	
-	protected abstract void chargerArrets(Context c);
+	protected void chargerArrets(Context c){
+		// Requete vers BDD Interne en utilisant le nom ou l'id du réseau
+	}
 	
-	protected abstract void chargerLignes(Context c);
+	protected void chargerLignes(Context c){
+		// Requete vers BDD Interne en utilisant le nom ou l'id du réseau
+	}
 	
-	public TreeMap<String, Ligne> getLignes(){
+	public HashMap<String, Ligne> getLignes(){
 		return lignes;
 	}
 	
@@ -81,11 +96,35 @@ public abstract class Reseau {
 		return arrets;
 	}
 	
-	public abstract int getImage();
+	public int getImage(){
+		return 0;
+	}
 	
 	public String getTwitterTimeline(){return this.twitterTimeline;}
 	
 	public String toString(){
 		return nom;
+	}
+	public int getID(){
+		return id;
+	}
+	
+	public String getNom(){
+		return this.nom;
+	}
+
+	@Override
+	public int compareTo(Reseau another) {
+		// TODO Auto-generated method stub
+		int ret=-1;
+
+		if(this.nom.charAt(0) > another.nom.charAt(0)){
+			ret=1;
+		}
+		else if(this.nom.charAt(0)==another.nom.charAt(0)){
+			ret=0;
+		}
+			
+		return ret;
 	}
 }

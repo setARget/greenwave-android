@@ -43,7 +43,7 @@ public class RouteList extends ArrayAdapter<String> {
         }
 		String s = (String)(e.get(position));
 		Log.d("Ligne s", s);
-		Ligne l = Globale.engine.getEntreprise().getLignes().get(s);
+		Ligne l = Globale.engine.getReseau().getLignes().get(s);
 		if(l==null){
 		//	l = Globale.engine.getEntreprise().getLignesFavorites().get(s);
 		}

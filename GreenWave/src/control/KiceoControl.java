@@ -37,28 +37,12 @@ public class KiceoControl implements Globale, OnInfoWindowClickListener, OnMarke
      	 * Initialize the datas and ihm of MEF application.
      	 */
     	public KiceoControl (Home a) {
-            (Globale.view).init(this);
+            //(Globale.view).init(this);
             this.a=a;
     	} // ------------------------------------------------------------- MefCtrl()
 
     	
         // ---------- Methods
-        /**
-         * Change the current state of the application
-         *
-         * @param identifier The new current State identifier
-         */
-        public void changeActivity(String identifier, View v){
-        	if(Globale.view != null){
-            (Globale.view).setCurrentActivity(identifier, v);
-        	}
-        	else{
-        		Log.d("My Easy Filters","View is null");
-        	}
-        } // ---------------------------------------------------------- changeState()
-
-
-	
 		public void sendSms(String dest, String message, View v){
         	try {
 				SmsManager smsManager = SmsManager.getDefault();
@@ -147,7 +131,11 @@ public class KiceoControl implements Globale, OnInfoWindowClickListener, OnMarke
 		 public void onMapLongClick(LatLng point) {
 			 // TODO Auto-generated method stub
 			 CustomMapFragment.addDestinationMarker(point);
-			 Globale.engine.getDestination().showInfoWindow();		 
+			 Globale.engine.getDestination().showInfoWindow();
+			 if(Globale.engine.getLocation()!=null){
+				 LatLng depart = new LatLng(Globale.engine.getLocation().getLatitude(), Globale.engine.getLocation().getLongitude());
+				 CustomMapFragment.drawPolyline(depart, point);
+			 }
 		 }
 		
 }

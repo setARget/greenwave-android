@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import view.activities.Home;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -46,13 +47,13 @@ public class LineList extends ArrayAdapter<Ligne>{
 	}
 	
 	protected void cloneItems(ArrayList<Ligne> items) {
-        for (Iterator iterator = items.iterator(); iterator.hasNext();) {
+        for (Iterator<Ligne> iterator = items.iterator(); iterator.hasNext();) {
         	Ligne gi = (Ligne) iterator.next();
             originalList.add(gi);
         }
     }
 	
-	@Override
+	@SuppressLint("InflateParams") @Override
 	public View getView(int position, View view, ViewGroup parent) {
 		
 		if (view == null) {
@@ -75,10 +76,10 @@ public class LineList extends ArrayAdapter<Ligne>{
 		ligne.setText(l.toString());
 		
 		TextView sens1 = (TextView) view.findViewById(R.id.sens1);
-		sens1.setText(l.getAller());
+		sens1.setText(l.getDirection1());
 		
 		TextView sens2 = (TextView) view.findViewById(R.id.sens2);
-		sens2.setText(l.getRetour());
+		sens2.setText(l.getDirection2());
 		if(l.getFavorite()==1){
 			view.findViewById(R.id.star).setVisibility(View.VISIBLE);
 		}
@@ -97,7 +98,7 @@ public class LineList extends ArrayAdapter<Ligne>{
     }   
 	
 	private class ListFilter extends Filter {
-        protected FilterResults performFiltering(CharSequence prefix) {
+        @SuppressLint("DefaultLocale") protected FilterResults performFiltering(CharSequence prefix) {
             // Initiate our results object
             FilterResults results = new FilterResults();
 
@@ -155,9 +156,9 @@ public class LineList extends ArrayAdapter<Ligne>{
                 notifyDataSetChanged();
                 clear();
                 //Add the items back in
-                for (Iterator iterator = localItems.iterator(); iterator
+                for (Iterator<Ligne> iterator = localItems.iterator(); iterator
                         .hasNext();) {
-                    Ligne gi = (Ligne) iterator.next();
+                    Ligne gi = iterator.next();
                     add(gi);
                 }
             }//end synchronized

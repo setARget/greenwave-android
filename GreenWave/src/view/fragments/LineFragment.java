@@ -32,7 +32,7 @@ import control.Globale;
 import control.listeners.actions.GreenOnQueryTextListener;
 import control.listeners.item.LineClickListener;
 import datas.Ligne;
-import datas.database.ligne.LignesDAO;
+import db.internal.LignesDAO;
 
 /**
  * LineFragment is a Fragment Object which shows up a list where you can select a bus line.
@@ -120,7 +120,7 @@ public class LineFragment extends Fragment{
 	 * Sets the reactions of the control elements
 	 */
 	private void attachReactions(){
-		ArrayList<Ligne> lignes = new ArrayList<Ligne>(Globale.engine.getEntreprise().getLignes().values());
+		ArrayList<Ligne> lignes = new ArrayList<Ligne>(Globale.engine.getReseau().getLignes().values());
 		listAdapter = new LineList(getActivity(), lignes, home);
 		list.setAdapter(listAdapter);
 		list.setOnItemClickListener(new LineClickListener(home));
@@ -160,7 +160,7 @@ public class LineFragment extends Fragment{
 	    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 	            .getMenuInfo();
 	    Ligne l = (Ligne) list.getItemAtPosition(info.position);
-	    ArrayList<Ligne> lignes = new ArrayList<Ligne>(Globale.engine.getEntreprise().getLignes().values());
+	    ArrayList<Ligne> lignes = new ArrayList<Ligne>(Globale.engine.getReseau().getLignes().values());
 	    if(l.getFavorite()==0){
 		    l.setFavorite(1);	
 		}
@@ -179,7 +179,7 @@ public class LineFragment extends Fragment{
 				// TODO Auto-generated method stub
 				LignesDAO dao = new LignesDAO(home);
 	    		dao.open();
-	    		dao.save(Globale.engine.getEntreprise().getLignes());
+	    		dao.save(Globale.engine.getReseau().getLignes());
 	    		dao.close();
 			}
 	    	

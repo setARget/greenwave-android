@@ -71,6 +71,6 @@ public class SplashScreen extends Activity {
 	 private void setup(){
 		 	MapsInitializer.initialize(getApplicationContext());
 			//Globale.engine.setEntreprise(Globale.engine.getEntreprise("CTRL"), this);	// Choix de la companie de transport
-		 	Globale.engine.setEntreprise(Globale.engine.getEntreprise("CTRL"), this);
+		 	Globale.engine.setReseau(Globale.engine.getReseau("VANNES"), this);
 	 }
 }

@@ -93,8 +93,8 @@ public class TwitterFragment extends Fragment{
     	   
     	});
       
-	  if(Globale.engine.getEntreprise().getTwitterTimeline()!=null){
-		  webView.loadDataWithBaseURL(baseURl, Globale.engine.getEntreprise().getTwitterTimeline(), "text/html", "UTF-8", null);
+	  if(Globale.engine.getReseau().getTwitterTimeline()!=null){
+		  webView.loadDataWithBaseURL(baseURl, Globale.engine.getReseau().getTwitterTimeline(), "text/html", "UTF-8", null);
 	  }
 	  else{
 		 webView.setVisibility(View.GONE);
