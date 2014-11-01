@@ -2,6 +2,17 @@
 	<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" 
 		android:title="Préférences">
 		
+			<PreferenceCategory
+			    android:title="Réseaux">
+	    		    <ListPreference
+		        android:id="@+id/pref_reseau"
+		        android:key="pref_reseau"
+		        android:title="@string/pref_reseau"
+		        android:dialogTitle="@string/pref_reseau"
+		        android:defaultValue="0"/>
+	    
+	    </PreferenceCategory>
+	    
 		<PreferenceCategory
         android:title="Carte">
 		    <ListPreference

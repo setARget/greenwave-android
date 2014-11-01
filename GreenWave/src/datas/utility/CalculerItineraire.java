@@ -3,16 +3,10 @@ package datas.utility;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.json.JSONObject;
-
-import view.activities.Home;
 import view.activities.Route;
-import view.custom.DirectionDialog;
-import view.custom.LineList;
 import view.custom.RouteList;
 
 import control.Globale;
-import control.listeners.item.LineClickListener;
 import control.listeners.item.LineRouteClickListener;
 import datas.Arret;
 import datas.Ligne;
@@ -21,14 +15,13 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 
 /**
  * © Copyright 2014 Antoine Sauray
  * @author Antoine Sauray
  * @version 0.1
  */
-public class CalculerItineraire extends AsyncTask <Float,String, ArrayList<String> > {
+public class CalculerItineraire extends AsyncTask <Float,String, ArrayList<Ligne> > {
 
 	private Location currentLocation, destination;
 	private Context c;
@@ -43,8 +36,8 @@ public class CalculerItineraire extends AsyncTask <Float,String, ArrayList<Strin
 	}
 	
 	@Override
-	protected ArrayList<String> doInBackground(Float... params) {
-		ArrayList<String> ret = new ArrayList<String>();
+	protected ArrayList<Ligne> doInBackground(Float... params) {
+		ArrayList<Ligne> ret = new ArrayList<Ligne>();
 		if(currentLocation != null){
 			int nb=0;
 			float distance=100;
@@ -67,7 +60,16 @@ public class CalculerItineraire extends AsyncTask <Float,String, ArrayList<Strin
 				Log.d("Nombre d'arrets à moins de "+distance+"m de la destination", nb+"");
 				distance=distance+100;
 			}
-			ret = chercheLignes(arretsProcheUtilisateur, arretsProcheDestination);
+			Iterator<Arret> itProcheUtilisateur = arretsProcheUtilisateur.iterator();
+			
+			while(itProcheUtilisateur.hasNext()){
+				Arret a1 = itProcheUtilisateur.next();
+				Iterator<Arret> itProcheDestination = arretsProcheDestination.iterator();
+				while(itProcheDestination.hasNext()){
+					Arret a2 = itProcheDestination.next();
+					ret.addAll(chercheLignes(a1, a2));
+				}
+			}
 		}
 		else{
 			Log.d("Nombre d'arrets", "Erreur location");
@@ -82,7 +84,7 @@ public class CalculerItineraire extends AsyncTask <Float,String, ArrayList<Strin
 	}
 	
 	@Override
-	protected void onPostExecute(ArrayList<String> result) {
+	protected void onPostExecute(ArrayList<Ligne> result) {
 	    super.onPostExecute(result);
 	    Log.d("Result size", result.size()+"");
 	    RouteList listAdapter = new RouteList(c, result);
@@ -121,45 +123,14 @@ public class CalculerItineraire extends AsyncTask <Float,String, ArrayList<Strin
 		return ret;
 	}
 
-	private ArrayList<String> chercheLignes(ArrayList<Arret> list1, ArrayList<Arret> list2){
+	private ArrayList<Ligne> chercheLignes(Arret a1, Arret a2){
 		
-		Iterator<Arret> it1 = list1.iterator();
-		
-		ArrayList<String> lignesPossibles = new ArrayList<String>();
-		ArrayList<String> lignes = new ArrayList<String>();
-		
-		while(it1.hasNext()){
-			// Pour chaque arret
-			Iterator<String> itLignes = it1.next().getLignesDesservant().iterator();
-			while(itLignes.hasNext()){
-				// On ajoute les lignes possibles si elles ne sont pas déjà présentes
-				String l = itLignes.next();
-				if(!lignesPossibles.contains(l)){
-					lignesPossibles.add(l);
-					Log.d("Ligne Possible", l);
-				}
-			}
-		}
-		
-		lignes = getLignes(lignesPossibles, list2);
-
-		return lignes;
-	}
-	
-	private ArrayList<String> getLignes(ArrayList<String> lignesPossibles, ArrayList<Arret> arretsDestination){
-		ArrayList<String> ret = new ArrayList<String>();
-		Iterator<Arret> it = arretsDestination.iterator();
-		
+		ArrayList<Ligne> ret = new ArrayList<Ligne>();
+		Iterator<Ligne> it = Globale.engine.getReseau().getLignes().values().iterator();
 		while(it.hasNext()){
-			Arret a = it.next();
-			Iterator<String> itLignes = a.getLignesDesservant().iterator();
-			while(itLignes.hasNext()){
-				// On ajoute les lignes possibles si elles ne sont pas déjà présentes
-				String l = itLignes.next();
-				if(lignesPossibles.contains(l) && !ret.contains(l)){
-					ret.add(l);
-					Log.d("Ligne Compatible", l);
-				}
+			Ligne l = it.next();
+			if(l.getArrets().containsValue(a1) && l.getArrets().containsValue(a2)){
+				ret.add(l);
 			}
 		}
 		

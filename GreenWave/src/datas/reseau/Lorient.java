@@ -27,18 +27,20 @@ public class Lorient extends Reseau{
 	}
 	
 	protected void chargerLignes(Context c){
-
-		Ligne ligne22 =  new Ligne("22", "Ploemeur Les Pins", "Lanester Grande Lande", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED), R.color.rouge);
-		Ligne ligne1 = new Ligne("1", "1A", "1B", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE), R.color.orange);
-		Ligne ligne2 = new Ligne("2", "Lorient Kerulvé", "Lorient Gare Maritime", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW), R.color.jaune);
+		
+		Ligne ligne22 =  new Ligne(1, "22", "Ploemeur Les Pins", "Lanester Grande Lande", "#ffffff", 1);
+		/*
+		Ligne ligne1 = new Ligne(2, "1", "1A", "1B", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE), R.color.orange);
+		Ligne ligne2 = new Ligne(3, "2", "Lorient Kerulvé", "Lorient Gare Maritime", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW), R.color.jaune);
 		Ligne ligne21 = new Ligne("21", "Lanester Jardin du Blavet", "Lorient Port de Pêche", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW), R.color.jaune);
 		Ligne ligne30 = new Ligne("30", "Ploemeur Fort-Bloqué", "Caudan", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN), R.color.vert);
 		Ligne ligne31 = new Ligne("31", "Cleguer La Croix-Rouge", "Ploemeur Le Courégant", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA), R.color.violet);
 		Ligne ligne42 = new Ligne("42", "Languidic Kerogonan", "Lorient Le Ter", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN), R.color.vert);
 		Ligne ligne51 = new Ligne("51", "Guidel Z.A. Pen Mané", "Ploemeur CRF Kerpape", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE), R.color.marron);
 		Ligne ligne52 = new Ligne("52", "Queven Bel Air", "Larmor-Plage Kerderff", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE), R.color.bleu);
-		
-		lignes.put(ligne1.getNom(), ligne1);
+		*/
+		lignes.put(ligne22.getNom(), ligne22);
+		/*
 		lignes.put(ligne2.getNom(), ligne2);
 		lignes.put(ligne21.getNom(), ligne21);
 		lignes.put(ligne22.getNom(), ligne22);
@@ -47,7 +49,7 @@ public class Lorient extends Reseau{
 		lignes.put(ligne42.getNom(), ligne42);
 		lignes.put(ligne51.getNom(), ligne51);
 		lignes.put(ligne52.getNom(), ligne52);
-
+		*/
 	}
 	
 	protected void chargerArrets(Context c){
@@ -58,6 +60,7 @@ public class Lorient extends Reseau{
 
 	
 	private void ploemeur(){
+		/*
 		Arret lesPins = new Arret(new LatLng(47.735250, -3.438258), "Les Pins", "Ploemeur", new ArrayList<String>(Arrays.asList("Ligne 22")));
 		Arret lesCeltes = new Arret(new LatLng(47.736785, -3.436329), "Les Celtes", "Ploemeur", new ArrayList<String>(Arrays.asList("Ligne 22", "Ligne 30", "Ligne 30d")));
 		Arret lesPommiers = new Arret(new LatLng(47.735407, -3.432553), "Les Pommiers", "Ploemeur", new ArrayList<String>(Arrays.asList("Ligne 22", "Ligne 30d")));
@@ -89,9 +92,11 @@ public class Lorient extends Reseau{
     	arrets.put(kerdiret.toString(), kerdiret);
     	arrets.put(kerlederne.toString(), kerlederne);
     	arrets.put(stMathurin.toString(), stMathurin);
+    	*/
 	}
 	
 	private void lorient(){
+		/*
 		Arret alsaceLorraine = new Arret(new LatLng(47.750004, -3.361961), "Alsace-Lorraine", "Lorient", new ArrayList<String>(Arrays.asList("Ligne 30", "Ligne 51", "Ligne 54", "Ligne 42", "Ligne 52", "Ligne 40", "Ligne 21", "Ligne 31", "Ligne 22", "Ligne 1")));
 		Arret bayard = new Arret(new LatLng(47.745351, -3.370308), "Bayard", "Lorient", new ArrayList<String>(Arrays.asList("Ligne 30", "Ligne 51", "Ligne 54", "Ligne 42", "Ligne 52", "Ligne 40", "Ligne 21", "Ligne 31", "Ligne 22")));
 		Arret coursDeChazelles = new Arret(new LatLng(47.752298, -3.361419), "Cours de Chazelles", "Lorient", new ArrayList<String>(Arrays.asList("Ligne 22", "Ligne 32")));
@@ -124,9 +129,11 @@ public class Lorient extends Reseau{
 		arrets.put(universite.toString(), universite);
 		arrets.put(guieyesse.toString(), guieyesse);
 		arrets.put(verdun.toString(), verdun);
+		*/
 	}
 
 	private void lanester(){
+		/*
 		Arret anse = new Arret(new LatLng(47.763177, -3.361786), "Anse", "Lanester", new ArrayList<String>(Arrays.asList("Ligne 21", "Ligne 22", "Ligne 31", "Ligne 31d")));
 		Arret kerdavid = new Arret(new LatLng(47.765182, -3.358567), "Kerdavid", "Lanester", new ArrayList<String>(Arrays.asList("Ligne 21", "Ligne 22", "Ligne 31", "Ligne 31d")));
 		Arret squareNoury = new Arret(new LatLng(47.767072, -3.355478), "Square Noury", "Lanester", new ArrayList<String>(Arrays.asList("Ligne 21", "Ligne 22", "Ligne 31", "Ligne 31d")));
@@ -166,23 +173,11 @@ public class Lorient extends Reseau{
 		arrets.put(toulhouet.toString(), toulhouet);
 		arrets.put(stade.toString(), stade);
 		arrets.put(grandeLande.toString(), grandeLande);
-		
+		*/
 		
 	}
 
 	public String toString(){
 		return "LORIENT";
-	}
-
-	@Override
-	public int getImage() {
-		// TODO Auto-generated method stub
-		return R.drawable.ctrl_img;
-	}
-
-	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return 1;
 	}
 }

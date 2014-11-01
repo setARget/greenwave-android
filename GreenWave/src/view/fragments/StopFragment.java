@@ -35,7 +35,6 @@ import control.listeners.button.NearestStopOnClickListener;
 import control.listeners.item.StopClickListener;
 import datas.Arret;
 import datas.Ligne;
-import db.internal.ArretsDAO;
 
 /**
  * StopFragment is a Fragment which displays a list of bus stops.
@@ -94,7 +93,7 @@ private Home home;	// Current activity
 			TextView nb = (TextView) v.findViewById(R.id.numero);
 			nb.setText(" "+l.getNumero()+" ");
 			nb.setTextColor(Color.WHITE);
-			nb.setBackgroundColor(home.getResources().getColor(l.getColor()));
+			nb.setBackgroundColor(Color.parseColor(l.getColor()));
 			
 			TextView sens1 = (TextView) v.findViewById(R.id.sens1);
 			sens1.setText(l.getDirection1());
@@ -102,7 +101,7 @@ private Home home;	// Current activity
 			TextView sens2 = (TextView) v.findViewById(R.id.sens2);
 			sens2.setText(l.getDirection2());
 			
-			if(Globale.engine.getLocation() != null){
+			if(Globale.engine.getLocation() != null && l.getArrets().size()!=0){
 				v.findViewById(R.id.nearest).setVisibility(View.VISIBLE);
 			}
 			else{
@@ -216,11 +215,13 @@ private Home home;	// Current activity
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
+						/*
 						ArretsDAO dao = new ArretsDAO(home);
 			    		dao.open();
 			    		dao.save( Globale.engine.getLigneCourante().getArrets());
 			    		//dao.save(Globale.engine.getEntreprise().getArretsFavoris());
 			    		dao.close();
+			    		*/
 					}
 			    	
 			    });

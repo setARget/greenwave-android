@@ -68,7 +68,8 @@ public class LineList extends ArrayAdapter<Ligne>{
 		TextView nb = (TextView) view.findViewById(R.id.numero);
 		nb.setText(l.getNumero());
 		nb.setTextColor(Color.WHITE);
-		nb.setBackgroundColor(home.getResources().getColor(l.getColor()));
+		nb.setBackgroundColor((Color.parseColor(l.getColor())) );
+
 
 		//
 		

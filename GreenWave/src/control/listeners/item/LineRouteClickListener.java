@@ -1,17 +1,11 @@
 package control.listeners.item;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import view.activities.Home;
 import view.activities.Route;
-import view.custom.DirectionDialog;
 import control.Globale;
-import datas.Arret;
 import datas.Ligne;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;

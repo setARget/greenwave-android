@@ -63,6 +63,8 @@ public class KiceoDatas{
 	
 	//
 	private TravelHelper travelHelper;
+	
+	private Utilisateur user;
 
     // ---------- Constructor
 
@@ -73,12 +75,6 @@ public class KiceoDatas{
     public KiceoDatas(){
     	this.label = new String ( "Green Wav'" );
     	listeReseaux = new TreeMap<String, Reseau>();
-    	
-    	Lorient lorient = new Lorient();
-    	Vannes vannes = new Vannes();
-    	
-    	listeReseaux.put(lorient.toString(), lorient);
-    	listeReseaux.put(vannes.toString(), vannes);
     	
     	hash  = new TreeMap<String, Marker>();
 
@@ -91,6 +87,7 @@ public class KiceoDatas{
     	
     	
     	defaultFragment=0;
+    	user=new Utilisateur();
     }
     /**
      * Modifie l'entreprise choisie et charge les données
@@ -113,7 +110,6 @@ public class KiceoDatas{
     public void setReseau(Reseau e, Context c){
     	Log.d("Nouvelle entreprise", e.toString());
     	reseau = e;
-    	reseau.charger(c);
     }
     
     public ArrayList<Arret> getListeArretsDesservis(){
@@ -187,6 +183,14 @@ public class KiceoDatas{
 	
 	public HashMap<String, Place> getPlacesMap(){
 		return placesMap;
+	}
+	
+	public Utilisateur getUtilisateur(){
+		return user;
+	}
+	
+	public void setUtilisateur(Utilisateur user){
+		this.user=user;
 	}
   
     

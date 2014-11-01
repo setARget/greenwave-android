@@ -33,7 +33,6 @@ public class NearbyStops extends AsyncTask<Void,String,Void> {
 	@Override
 	protected Void doInBackground(Void... params) {
 		
-		String id = Globale.engine.getLigneCourante().toString();
 		Iterator<Arret> it = Globale.engine.getLigneCourante().getArrets().values().iterator();
 		//Iterator<Arret> itFav = Globale.engine.getEntreprise().getArretsFavoris().values().iterator();
 		  Location currentLocation = Globale.engine.getLocation();
@@ -41,7 +40,7 @@ public class NearbyStops extends AsyncTask<Void,String,Void> {
 		  Arret nearest=null;
 		  while(it.hasNext()){
 			  Arret nouvelArret = it.next();
-			  if(currentLocation.distanceTo(nouvelArret.getLocation()) < distance && nouvelArret.getLignesDesservant().contains(id)){
+			  if(currentLocation.distanceTo(nouvelArret.getLocation()) < distance){
 				  distance = currentLocation.distanceTo(nouvelArret.getLocation());
 				  nearest=nouvelArret;
 			  }

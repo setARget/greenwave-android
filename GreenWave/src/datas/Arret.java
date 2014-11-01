@@ -16,55 +16,31 @@ public class Arret implements Comparable<Arret>{
 	
 	// ----------- ATTRIBUTES
 	
-	private static int nbArrets = 0;
-	
-	private int idBdd, nbVues, prefRang;
-	private String ville, nom;
+	private int idBdd, reseau;
+	private String nom;
 	private LatLng latLng;
 	private Location location;
 	private int distance;
-	private ArrayList<String> lignesDesservant;
+	//private ArrayList<String> lignesDesservant;
 	private boolean favorite;
 	
 	
 	// ----------- CONSTRUTORS
 	
-	public Arret(int id, String nom, LatLng latLng, ArrayList<String> lignesDesservant){
-		this.idBdd = nbArrets;
-		this.lignesDesservant = lignesDesservant; 
+	public Arret(int id, String nom, LatLng latLng, int reseau){
+		this.idBdd = id;
+		//this.lignesDesservant = lignesDesservant; 
 		this.latLng=latLng;
 		this.nom = nom;
 		this.distance=-1;
-		this.nbVues = 0;
-		this.prefRang = 0;
-
-		
+		this.reseau=reseau;
 		this.location=new Location(nom);
 		this.location.setLatitude(latLng.latitude);
 		this.location.setLongitude(latLng.longitude);
 		favorite=false;
-		nbArrets++;
-	}
-	
-	public Arret(LatLng latLng, String nom, String ville, ArrayList<String> lignesDesservant){
-		this.idBdd = nbArrets;
-		this.lignesDesservant = lignesDesservant; 
-		this.latLng=latLng;
-		this.nom = nom;
-		this.distance=-1;
-		this.nbVues = 0;
-		this.prefRang = 0;
-		this.ville=ville;
-		this.location=new Location(nom);
-		this.location.setLatitude(latLng.latitude);
-		this.location.setLongitude(latLng.longitude);
-		favorite=false;
-		nbArrets++;
 	}
 	
 	// ----------- METHODS
-	
-	public static int getNbArrets(){return nbArrets;}
 	
 	public int getIdBdd(){return idBdd;}
 	
@@ -72,15 +48,11 @@ public class Arret implements Comparable<Arret>{
 	
 	public Location getLocation(){return location;}
 	
-	public ArrayList<String> getLignesDesservant(){return lignesDesservant;}
+	//public ArrayList<String> getLignesDesservant(){return lignesDesservant;}
 	
-	public String getVille(){return ville;}
+	public int getReseau(){return reseau;}
 	
 	public String getNom(){return nom;}
-	
-	public int getNbVues(){return nbVues;}
-	
-	public int getPrefRang(){return prefRang;}
 	
 	public int getFavorite(){
 		int ret;
@@ -94,10 +66,6 @@ public class Arret implements Comparable<Arret>{
 		
 		return ret;
 	}
-	
-	public void setNbVues(int nb){this.nbVues = nb;}
-	
-	public void setPrefRang(int rang){this.prefRang = rang;}
 	
 	public void setFavorite(int favorisInt){
 		if(favorisInt == 0){
@@ -119,7 +87,6 @@ public class Arret implements Comparable<Arret>{
 	public String toString(){
 		return nom;
 	}
-
 
 	@Override
 	public int compareTo(Arret another) {

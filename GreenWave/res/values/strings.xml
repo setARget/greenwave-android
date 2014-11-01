@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Green Wav</string>
+    <string name="app_id">367316096764556</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Réglages</string>
     <string name="confirm">Confirmer</string>
@@ -19,5 +20,9 @@
     <string name="drawer_close">Fermer</string>
     <string name="pref_map_summmary">Type de carte</string>
     <string name="pref_map_title">Type de carte</string>
+    <string name="pref_reseau">Réseau par défault</string>
+    <string name="addhoraire">Ajouter un horaire</string>
+    <string name="signaler">Signaler</string>
+    <string name="renseignement">Renseigné par</string>
 
 </resources>

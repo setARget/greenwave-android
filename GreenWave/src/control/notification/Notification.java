@@ -89,7 +89,7 @@ public class Notification {
 	}
 	
 	public static void loadCSV(Context c, Arret arret){
-		
+		/*
 		String ret;
 		
 		CSVReader csvReader = null;
@@ -147,6 +147,7 @@ public class Notification {
 			// TODO Auto-generated catch block
 			Log.d("CSV ERROR",e.getMessage());
 		}
+		*/
 	}
 
 	public static String[] getHoraires(CSVReader csvReader, int col) throws IOException{

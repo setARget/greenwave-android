@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.wavon.greenwave.R;
 
 import control.Globale;
-import db.external.google.*;
+import datas.db.external.google.*;
 import datas.Place;
 
 public class OnFocusChangeListener implements android.view.View.OnFocusChangeListener, OnQueryTextListener, OnSuggestionListener{

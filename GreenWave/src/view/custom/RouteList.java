@@ -23,12 +23,12 @@ import datas.Ligne;
  * @author Antoine Sauray
  * @version 0.1
  */
-public class RouteList extends ArrayAdapter<String> {
+public class RouteList extends ArrayAdapter<Ligne> {
 
 	private final Context context;
-	private final ArrayList<String> e;
+	private final ArrayList<Ligne> e;
 
-	public RouteList(Context context, ArrayList<String> array) {
+	public RouteList(Context context, ArrayList<Ligne> array) {
 		super(context, R.layout.list_itineraire, array);
 		this.context = context;
 		e=array;
@@ -41,16 +41,15 @@ public class RouteList extends ArrayAdapter<String> {
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             view = mInflater.inflate(R.layout.list_itineraire, null);
         }
-		String s = (String)(e.get(position));
-		Log.d("Ligne s", s);
-		Ligne l = Globale.engine.getReseau().getLignes().get(s);
+		Ligne l = (Ligne)(e.get(position));
+		
 		if(l==null){
 		//	l = Globale.engine.getEntreprise().getLignesFavorites().get(s);
 		}
 		TextView nb = (TextView) view.findViewById(R.id.numero);
 		nb.setText(l.getNumero());
 		nb.setTextColor(Color.WHITE);
-		nb.setBackgroundColor(context.getResources().getColor(l.getColor()));
+		//nb.setBackgroundColor(context.getResources().getColor(l.getColor()));
 
 		//
 		

@@ -1,8 +1,8 @@
 package control;
 
 import view.activities.Home;
+import view.activities.Horaire;
 import view.activities.Route;
-import view.custom.TabbedDialog;
 import view.fragments.CustomMapFragment;
 import android.content.Context;
 import android.content.Intent;
@@ -60,15 +60,23 @@ public class KiceoControl implements Globale, OnInfoWindowClickListener, OnMarke
 		@Override
 		public void onInfoWindowClick(Marker marker) {
 			// TODO Auto-generated method stub
+			int i = 0;
+			boolean isPlace=false;
+
+			if(!isPlace){
 			Ligne l = Globale.engine.getLigneCourante();
-			if(l!=null){
-				Arret arret = l.getArrets().get(marker.getTitle());
-				//if(arret == null){arret = Globale.engine.getEntreprise().getArretsFavoris().get(marker.getTitle());}
-				if(arret != null && !Globale.engine.getPlacesMap().containsKey(marker.getTitle())){
-					// On a un arret de selectionné
-					Globale.engine.setArretCourant(arret);
-					TabbedDialog td = new TabbedDialog(a, marker.getTitle()+" - "+arret.getVille());
-					td.show();	
+				if(l!=null){
+					Arret arret = l.getArrets().get(marker.getTitle());
+					//if(arret == null){arret = Globale.engine.getEntreprise().getArretsFavoris().get(marker.getTitle());}
+					if(arret != null && !Globale.engine.getPlacesMap().containsKey(marker.getTitle())){
+						// On a un arret de selectionné
+						Globale.engine.setArretCourant(arret);
+						//TabbedDialog td = new TabbedDialog(a, marker.getTitle());
+						//td.show();
+						Intent intent = new Intent(a, Horaire.class);
+						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						a.startActivity(intent);
+					}
 				}
 			}
 			else{

@@ -11,4 +11,12 @@
         android:layout_centerInParent="true"
         android:src="@drawable/splash_screen" />
 
+    <com.facebook.widget.LoginButton
+        android:id="@+id/authButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

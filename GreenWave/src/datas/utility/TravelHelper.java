@@ -25,7 +25,7 @@ public class TravelHelper {
 	
 
 public int[] getDistanceTrajet(LatLng position){
-		
+		/*
 		Location destination = new Location("Destination");
 		destination.setLatitude(position.latitude);
 		destination.setLongitude(position.longitude);
@@ -79,7 +79,8 @@ public int[] getDistanceTrajet(LatLng position){
 		int[] ret = new int[2];
 		ret[0]=(int)distanceBus; 
 		ret[1]=(int)distanceMarche;
-		return ret;		
+		*/
+		return null;		
 	}
 	
 	public int[] getTempsTrajet(int[] distancesTrajet){

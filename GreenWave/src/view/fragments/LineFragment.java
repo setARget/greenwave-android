@@ -11,6 +11,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SearchViewCompat;
+import android.text.InputType;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -32,7 +34,6 @@ import control.Globale;
 import control.listeners.actions.GreenOnQueryTextListener;
 import control.listeners.item.LineClickListener;
 import datas.Ligne;
-import db.internal.LignesDAO;
 
 /**
  * LineFragment is a Fragment Object which shows up a list where you can select a bus line.
@@ -71,13 +72,17 @@ public class LineFragment extends Fragment{
     	setHasOptionsMenu(true);
 		return v;
 	}
-	 @Override
+	 
+	@Override
 	 public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {	 
   	   	inflater.inflate(R.menu.line_menu, menu);
   	   	
   	  MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+  	  
   	  SearchManager searchManager = (SearchManager) getActivity().getSystemService( Context.SEARCH_SERVICE );
   	  SearchView search = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+  	  SearchViewCompat.setInputType(search, InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+
 
   	search.setSearchableInfo(searchManager.getSearchableInfo(home.getComponentName()));
   	//search.setSubmitButtonEnabled(true);
@@ -177,10 +182,12 @@ public class LineFragment extends Fragment{
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
+				/*
 				LignesDAO dao = new LignesDAO(home);
 	    		dao.open();
 	    		dao.save(Globale.engine.getReseau().getLignes());
 	    		dao.close();
+	    		*/
 			}
 	    	
 	    });

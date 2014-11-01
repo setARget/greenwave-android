@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.wavon.greenwave.R;
 
-import db.external.didier.GetReseaux;
+import datas.db.external.didier.GetReseaux;
 
 /**
  * © Copyright 2014 Antoine Sauray
@@ -34,12 +34,12 @@ public class SelectionReseau extends FragmentActivity{
         initInterface();
         attachReactions();
         Log.d("New Activity", "Selecting Company");
-		new GetReseaux(this, listOnline, layout).execute();
+		new GetReseaux(this, listOffline, listOnline, layout).execute();
     }
 	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	getActionBar().setDisplayHomeAsUpEnabled(true);
+    	//getActionBar().setDisplayHomeAsUpEnabled(true);
  	   return true;
     }
 	
@@ -49,9 +49,6 @@ public class SelectionReseau extends FragmentActivity{
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if(id == android.R.id.home){	// actions on "previous" button
-        	startActivity(new Intent(this, Home.class));
-        }
         return super.onOptionsItemSelected(item);
     }
     
@@ -61,6 +58,7 @@ public class SelectionReseau extends FragmentActivity{
 	private void initInterface() {
 		//listOffline = (ListView) this.findViewById(R.id.list_reseau_offline);
 		listOnline = (ListView) this.findViewById(R.id.list_reseau_online);
+		listOffline = (ListView) this.findViewById(R.id.list_reseau_offline);
 		layout = (RelativeLayout) this.findViewById(R.id.loadingPanel);
 	}
 	

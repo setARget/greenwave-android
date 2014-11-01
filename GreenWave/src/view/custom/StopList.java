@@ -72,9 +72,6 @@ public class StopList extends ArrayAdapter<Arret> {
 			a.setDistance(distance);
 			info+=" ("+distance+"m)";
 		}
-		else{
-			info+=" ("+a.getVille()+")";
-		}
 		nom.setText(info);
 		
 		if(a.getFavorite()==1){

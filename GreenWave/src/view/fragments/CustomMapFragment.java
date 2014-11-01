@@ -43,7 +43,7 @@ import control.Globale;
 import control.KiceoControl;
 import datas.Arret;
 import datas.Ligne;
-import db.external.google.GetPlaces;
+import datas.db.external.google.GetPlaces;
 
 /**
  * MapFragment is a Fragment Object which displays a map.
@@ -179,7 +179,7 @@ public class CustomMapFragment extends SupportMapFragment{
 						marker.setSnippet("Distance : "+(int)Globale.engine.getLocation().distanceTo(loc)+"m");
 					}
 				 else{
-					 marker.setSnippet(Globale.engine.getArretCourant().getVille());
+					 //marker.setSnippet(Globale.engine.getArretCourant().getVille());
 				 }
 					
 				gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(Globale.engine.getArretCourant().getLatLng(), 14.0f) );
@@ -230,6 +230,11 @@ public class CustomMapFragment extends SupportMapFragment{
    }
 
 	 @Override
+	 public void onPause() {
+	     super.onPause();
+	 }
+	 
+	 @Override
 	 public void setUserVisibleHint(boolean visible)
 	 {
 		 super.setUserVisibleHint(visible);
@@ -257,7 +262,7 @@ public class CustomMapFragment extends SupportMapFragment{
 	
 	 public ArrayAdapter<Arret> getArretAdapter(){return adapter3;}
 	 
-	 public TreeMap getMarkers(){return this.markerHash;}
+	 public TreeMap<String, Marker> getMarkers(){return CustomMapFragment.markerHash;}
 	
 	 public String toString(){
 		 return Globale.engine.getReseau().toString();

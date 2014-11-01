@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-import view.activities.Home;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -19,8 +18,6 @@ import android.widget.TextView;
 import com.wavon.greenwave.R;
 
 import datas.Reseau;
-import datas.Reseau;
-import db.external.didier.GetReseaux;
 
 /**
  * Provides a list of bus lines

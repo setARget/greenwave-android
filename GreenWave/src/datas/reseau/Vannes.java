@@ -27,7 +27,7 @@ public class Vannes extends Reseau{
 	}
 	
 	protected void chargerLignes(Context c){
-		
+		/*
 		Ligne ligne1 =  new Ligne("1", "Ténénio", "Cassard", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED), R.color.rouge);
 		lignes.put(ligne1.getNom(), ligne1);
 		
@@ -59,11 +59,11 @@ public class Vannes extends Reseau{
 		lignes.put(ligne10.getNom(), ligne10);
 		
 		Log.d("res: ",""+ Ligne.getNbLignes());
-
+	*/
 	}
 	
 	protected void chargerArrets(Context c){
-		
+		/*
 		Arret cassard = new Arret(new LatLng(47.636847, -2.778987), "Cassard", "Vannes", new ArrayList<String>(Arrays.asList("Ligne 1")));
 		Arret surville = new Arret(new LatLng(47.636586, -2.774759), "Surville", "Vannes", new ArrayList<String>(Arrays.asList("Ligne 1")));
 		Arret ponant = new Arret(new LatLng(47.638755, -2.777463), "Ponant", "Vannes", new ArrayList<String>(Arrays.asList("Ligne 1")));
@@ -143,22 +143,11 @@ public class Vannes extends Reseau{
 		arrets.put(papin.toString(), papin);
 		arrets.put(audic.toString(), audic);
 		arrets.put(tenenio.toString(), tenenio);
-
+		*/
 	}
 
 	public String toString(){
 		return "VANNES";
 	}
 	
-	@Override
-	public int getImage() {
-		// TODO Auto-generated method stub
-		return R.drawable.ctrl_img;
-	}
-
-	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return 2;
-	}
 }

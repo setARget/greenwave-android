@@ -141,7 +141,7 @@ public class UpdateTimes extends AsyncTask<String,String,Void> {
 
 	private void process(){
 		publishProgress("Chargement des horaires");
-		int h = 6;
+		int h = 5;
 		int indexParcours=0;
 		 
  		for (int i = 0; i < 16; i++) {

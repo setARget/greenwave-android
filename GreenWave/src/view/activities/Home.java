@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -26,8 +27,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.facebook.Request;
+import com.facebook.widget.ProfilePictureView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.wavon.greenwave.R;
 
@@ -39,7 +44,6 @@ import control.listeners.navigation.KiceoTabListener;
 import control.listeners.navigation.SimpleOnChangePageListener;
 import control.services.TimeService;
 import datas.utility.TravelHelper;
-import db.external.didier.GetArrets;
 
 
 /**
@@ -81,8 +85,17 @@ public class Home extends FragmentActivity implements Globale{
         initInterface();
         attachReactions();
         
+        if(Globale.engine.getUtilisateur().getNom() != null && Globale.engine.getUtilisateur().getPrenom()!=null){
+        	this.getActionBar().setTitle(Globale.engine.getUtilisateur().getPrenom()+" "+Globale.engine.getUtilisateur().getNom());
+        }
+        
+        ProfilePictureView mImage = new ProfilePictureView(this);
+        mImage.setDrawingCacheEnabled(true);
+        mImage.setProfileId(Globale.engine.getUtilisateur().getID());
+        
+        Bitmap bitmap = mImage.getDrawingCache();
+        //this.getActionBar().setIcon(bitmap);   
 		viewPager.setCurrentItem(Globale.engine.getDefaultFragment());	// Selection du bon fragment
-        Log.d("Kiceo - Vannes Agglo", "L'application a démarrée");
         
         startService(new Intent(this, TimeService.class));
     	//new GetArrets(Globale.engine.getReseau("VANNES"), Globale.engine.getLigneCourante()).execute();
@@ -94,7 +107,7 @@ public class Home extends FragmentActivity implements Globale{
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         
         ArrayList<DrawerItem> dataList = new ArrayList<DrawerItem>();
-        dataList.add(new DrawerItem("", Globale.engine.getReseau().getImage()));
+        dataList.add(new DrawerItem(Globale.engine.getReseau().toString(), 0));
         dataList.add(new DrawerItem("A propos", R.drawable.ic_action_about));
         dataList.add(new DrawerItem("Réglages", R.drawable.ic_action_settings));
         dataList.add(new DrawerItem("Aide", R.drawable.ic_action_help));
@@ -118,7 +131,7 @@ public class Home extends FragmentActivity implements Globale{
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getActionBar().setTitle("Ctrl");
+                getActionBar().setTitle("GreenWave");
             }
 
             /** Called when a drawer has settled in a completely open state. */

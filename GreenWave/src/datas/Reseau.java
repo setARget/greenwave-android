@@ -2,24 +2,19 @@ package datas;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.TreeMap;
 
-import db.internal.ArretsDAO;
-import db.internal.LignesDAO;
-
-import android.content.Context;
 import android.util.Log;
 
 /**
  * © Copyright 2014 Antoine Sauray
  * Entreprise is a bus company class
- * @author Antoine Sauray
- * @version 0.1
+ * @author Antoine Sauray, Alexis Robin
+ * @version 0.2
  */
 public class Reseau implements Comparable<Reseau>{
 
 	protected String nom;
-	private int id;
+	private int idBdd , version;
 	private String image;
 	
 	protected HashMap<String, Ligne> lignes;
@@ -27,11 +22,12 @@ public class Reseau implements Comparable<Reseau>{
 	
 	private final String twitterTimeline;
 	
-	public Reseau(int id, String nom, String twitterTimeline, String img){
+	public Reseau(int id, String nom, String twitterTimeline, String img, int version){
 		this.nom=nom;
-		this.id=id;
+		this.idBdd=id;
 		this.image=img;
 		this.twitterTimeline=twitterTimeline;
+		this.version = version;
 		lignes = new HashMap<String, Ligne>();
 		arrets = new HashMap<String, Arret>();
 	}
@@ -43,51 +39,6 @@ public class Reseau implements Comparable<Reseau>{
 		arrets = new HashMap<String, Arret>();
 	}
 	
-	protected void synchronize(Context c){
-		
-		Log.d("envoi: ", ""+ lignes.size());
-		LignesDAO lDao = new LignesDAO(c);
-		lDao.open();
-		lDao.synchronisation(lignes);
-        lDao.close();
-		
-		ArretsDAO aDao = new ArretsDAO(c);
-		aDao.open();
-		aDao.synchronisation(arrets);
-        aDao.close();
-
-	}
-	
-	protected void associer(){
-		Iterator<Arret> it = arrets.values().iterator();
-		while(it.hasNext()){
-			Arret a = it.next();
-			Iterator<String> itLignes = a.getLignesDesservant().iterator();
-			while(itLignes.hasNext()){
-				String idLigne = itLignes.next();
-				if(lignes.get(idLigne)!=null){	// Sécurité à retirer plus tard
-					lignes.get(idLigne).getArrets().put(a.toString(), a);
-					Log.d("Association", idLigne+" - "+a.toString());
-				}
-			}
-		}
-	}
-	
-	protected void charger(Context c){
-		chargerArrets(c);
-		chargerLignes(c);
-		associer();
-		synchronize(c);
-	}
-	
-	protected void chargerArrets(Context c){
-		// Requete vers BDD Interne en utilisant le nom ou l'id du réseau
-	}
-	
-	protected void chargerLignes(Context c){
-		// Requete vers BDD Interne en utilisant le nom ou l'id du réseau
-	}
-	
 	public HashMap<String, Ligne> getLignes(){
 		return lignes;
 	}
@@ -97,7 +48,7 @@ public class Reseau implements Comparable<Reseau>{
 	}
 	
 	public int getImage(){
-		return 0;
+		return 0;	// a modifier : Image est l'url qui donne vers l'image
 	}
 	
 	public String getTwitterTimeline(){return this.twitterTimeline;}
@@ -105,12 +56,24 @@ public class Reseau implements Comparable<Reseau>{
 	public String toString(){
 		return nom;
 	}
-	public int getID(){
-		return id;
+	public int getIdBdd(){
+		return idBdd;
 	}
 	
 	public String getNom(){
 		return this.nom;
+	}
+	
+	public int getVersion(){
+		return this.version;
+	}
+	
+	public void setLignes(HashMap<String, Ligne> lignes){
+		this.lignes = lignes;
+	}
+	
+	public void setArrets(HashMap<String, Arret> arrets){
+		this.arrets = arrets;
 	}
 
 	@Override

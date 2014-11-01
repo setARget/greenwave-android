@@ -169,7 +169,7 @@ public class TimeService extends Service {
 		}
 		
 	    public String[] loadCSV(Arret arret){	  
-			
+			/*
 	    	String[] ret = new String[2];
 	    	
 			int[] indiceCol = new int[2];
@@ -227,7 +227,9 @@ public class TimeService extends Service {
 				// TODO Auto-generated catch block
 				Log.d("CSV ERROR",e.getMessage());
 			}
-			return ret;
+						*/
+			return null;
+
 		}
 
 		public String[] getHoraires(CSVReader csvReader, int col) throws IOException{
