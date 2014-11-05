@@ -3,8 +3,8 @@ package view.activities;
 
 import java.util.ArrayList;
 
-import view.custom.DrawerItem;
-import view.custom.GreenDrawerAdapter;
+import view.custom.drawer.DrawerItem;
+import view.custom.drawer.GreenDrawerAdapter;
 import view.fragments.CustomMapFragment;
 import view.fragments.LineFragment;
 import view.fragments.StopFragment;
@@ -15,7 +15,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -27,11 +26,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import com.facebook.Request;
+import com.facebook.widget.LoginButton;
 import com.facebook.widget.ProfilePictureView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.wavon.greenwave.R;
@@ -91,10 +87,8 @@ public class Home extends FragmentActivity implements Globale{
         
         ProfilePictureView mImage = new ProfilePictureView(this);
         mImage.setDrawingCacheEnabled(true);
-        mImage.setProfileId(Globale.engine.getUtilisateur().getID());
-        
-        Bitmap bitmap = mImage.getDrawingCache();
-        //this.getActionBar().setIcon(bitmap);   
+        mImage.setProfileId(Globale.engine.getUtilisateur().getIdFacebook());
+
 		viewPager.setCurrentItem(Globale.engine.getDefaultFragment());	// Selection du bon fragment
         
         startService(new Intent(this, TimeService.class));
@@ -105,17 +99,19 @@ public class Home extends FragmentActivity implements Globale{
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        
+
         ArrayList<DrawerItem> dataList = new ArrayList<DrawerItem>();
+        dataList.add(new DrawerItem(true));
         dataList.add(new DrawerItem(Globale.engine.getReseau().toString(), 0));
         dataList.add(new DrawerItem("A propos", R.drawable.ic_action_about));
         dataList.add(new DrawerItem("Réglages", R.drawable.ic_action_settings));
         dataList.add(new DrawerItem("Aide", R.drawable.ic_action_help));
+        //dataList.add( authButton);
+	  //authButton.setReadPermissions(Arrays.asList("user_likes", "user_status"));)
        
         // Set the adapter for the list view
         GreenDrawerAdapter adapter = new GreenDrawerAdapter(this, R.layout.green_drawer_item,
                 dataList);
-
         mDrawerList.setAdapter(adapter);
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener(this));

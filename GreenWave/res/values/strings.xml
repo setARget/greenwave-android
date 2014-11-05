@@ -24,5 +24,8 @@
     <string name="addhoraire">Ajouter un horaire</string>
     <string name="signaler">Signaler</string>
     <string name="renseignement">Renseigné par</string>
+    <string name="mail">Adresse mail</string>
+    <string name="login">Login</string>
+    <string name="pass">Mot de passe</string>
 
 </resources>

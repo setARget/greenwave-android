@@ -15,8 +15,15 @@
         android:id="@+id/authButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"/>
+    
+     <Button
+        android:id="@+id/noLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/authButton"
+        android:layout_centerHorizontal="true"
+        android:text="Continuer" />
 
 </RelativeLayout>

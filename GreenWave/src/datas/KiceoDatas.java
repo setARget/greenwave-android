@@ -65,6 +65,8 @@ public class KiceoDatas{
 	private TravelHelper travelHelper;
 	
 	private Utilisateur user;
+	
+	public static final String PREFS_NAME = "preferences";
 
     // ---------- Constructor
 

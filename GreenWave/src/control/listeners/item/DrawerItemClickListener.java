@@ -35,26 +35,40 @@ public class DrawerItemClickListener implements OnItemClickListener {
 		switch(position){
 		
 			case 0:
-				// Selectionner mon réseau
-				intent = new Intent(home, view.activities.SelectionReseau.class);
+				intent = new Intent(home, view.activities.FBLogin.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				home.startActivity(intent);
 			break;
 			case 1:
-				// A Propos
+				// Selectionner mon réseau
+				intent = new Intent(home, view.activities.SelectionReseau.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				home.startActivity(intent);
+				
 			break;
 			case 2:
+				// A Propos
+				
+			break;
+			case 3:
 				// Réglages
 				intent = new Intent(home, view.activities.Preferences.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				home.startActivity(intent);
+				
 			break;
-			case 3:
+			case 4:
 				// Aide
 				intent = new Intent(home, view.activities.Help.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				home.startActivity(intent);
+				
+				
 			break;
+			case 5:
+				// A Propos		
+			break;
+			
 		}
 	}
 

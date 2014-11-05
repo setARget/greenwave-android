@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -18,8 +19,10 @@ import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.LoginActivity;
@@ -36,6 +39,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.wavon.greenwave.R;
 
 import control.Globale;
+import datas.KiceoDatas;
 import datas.Reseau;
 import datas.Utilisateur;
 import datas.db.external.didier.DownloadFullReseau;
@@ -53,11 +57,11 @@ import datas.utility.NetworkUtil;
  * @author Antoine Sauray
  * @version 0.1
  */
-public class SplashScreen extends Activity {
+public class SplashScreen extends Activity implements OnClickListener {
 	 
 	 // Show the Splash Screen for 3secs(3000ms)
 	long START_UP_DELAY = 1500L;
-	private boolean isResumed = false;;
+	private boolean isResumed = false;
 	 
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 	    @Override
@@ -83,15 +87,18 @@ public class SplashScreen extends Activity {
 	  
 	  LoginButton authButton = (LoginButton) findViewById(R.id.authButton);
 	  authButton.setReadPermissions(Arrays.asList("user_likes", "user_status"));
+	  
+	  Button connexion = (Button) findViewById(R.id.noLogin);
+	  connexion.setOnClickListener(this);
         
-        if(this.ensureOpenSession()){
+        if(SplashScreen.ensureOpenSession()){
         	authButton.setVisibility(View.GONE);
         }
 
 	  Log.d("oncreate", "oncreate");
 	 }
 	 
-	 private boolean ensureOpenSession() {
+	 public static boolean ensureOpenSession() {
 	        if (Session.getActiveSession() == null ||
 	                !Session.getActiveSession().isOpened()) {
 	            return false;
@@ -101,15 +108,13 @@ public class SplashScreen extends Activity {
 	 
 		private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 			Log.d("onSessionStateChange", "onSessionStateChange");
-			if (state.isOpened()) {
-		        Log.i("", "Logged in...");
-		    } else if (state.isClosed()) {
-		        Log.i("", "Logged out...");
-		    }
-
 		    if (session != null && session.isOpened()) {
 		        // Get the user's data.
 		        makeMeRequest(session);
+		    }
+		    else{
+            	SharedPreferences settings = getSharedPreferences(KiceoDatas.PREFS_NAME, 0);
+            	settings.edit().putBoolean("fb_logged", false);
 		    }
 		}
 		
@@ -126,8 +131,11 @@ public class SplashScreen extends Activity {
 		        	Log.d("onCompleted", "onCompleted");
 		            if (session == Session.getActiveSession()) {
 		            	Log.d("getActiveSession", "getActiveSession");
-		                if (user != null) {
-		                	Globale.engine.setUtilisateur(new Utilisateur(user.getId(), user.getLastName(), user.getFirstName()));
+		                if (user != null) {		                	
+		                	Utilisateur u = new Utilisateur(user.getId(), user.getLastName(), user.getFirstName());
+		                	Globale.engine.setUtilisateur(u);
+		                	SharedPreferences settings = getSharedPreferences(KiceoDatas.PREFS_NAME, 0);
+		                	settings.edit().putBoolean("fb_logged", true);
 		                	GetUtilisateur t2 = new GetUtilisateur(user.getId());
 		                	t2.start();
 		                	try {
@@ -136,7 +144,9 @@ public class SplashScreen extends Activity {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-		                	Globale.engine.setUtilisateur(t2.getUtilisateur());
+		                }
+		                else{
+		                	Log.d("user error", "user error");
 		                }
 		            }
 		            if (response.getError() != null) {
@@ -145,6 +155,7 @@ public class SplashScreen extends Activity {
 		            }
 		            try {
 						t.join();
+				    	finishSplashSreen();
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -154,9 +165,28 @@ public class SplashScreen extends Activity {
 		    request.executeAsync();
 		} 
 	 	
+	 	private void continuer(){
+	 		final SetupReseau t = new SetupReseau(this);
+	 		t.start();
+	 		try {
+				t.join();
+				finishSplashSreen();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	 		
+
+	 	}
+	 	
+	 	public void finishSplashSreen(){
+	        this.finish();
+	 	}
+	 	
 	 	@Override
 	    public void onResume() {
 	        super.onResume();
+
 	        isResumed = true;
 	        Session session = Session.getActiveSession();
 	        if (session != null && (session.isOpened() || session.isClosed())) {
@@ -189,5 +219,11 @@ public class SplashScreen extends Activity {
 	        super.onSaveInstanceState(outState);
 	        lifecycleHelper.onSaveInstanceState(outState);
 	    }
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			this.continuer();
+		}
 
 }

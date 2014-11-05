@@ -176,7 +176,6 @@ public class LineFragment extends Fragment{
 	    listAdapter = new LineList(v.getContext(), lignes, home);
 	    list.setAdapter(listAdapter);
 	    list.invalidate();
-	      
 	    Thread t = new Thread(new Runnable(){
 
 			@Override

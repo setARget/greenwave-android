@@ -7,25 +7,45 @@ import android.util.Log;
 
 public class Horaire extends Time implements Comparable<Horaire>{
 	
-	private String idAuteur;
+	private int id, idAuteur;
 	
-	public Horaire(String horaire, String idAuteur){
+	/**
+	 * Constructeur pour envoyer des données
+	 * @param id
+	 * @param horaire
+	 * @param idAuteur
+	 */
+	
+	public Horaire(int id, String horaire){
+		this.format("hh:mm");
+		this.hour=Integer.parseInt(horaire.substring(0, 2));
+		this.minute=Integer.parseInt(horaire.substring(3, 5));
+		this.idAuteur=-1;
+		this.id=id;
+	}
+	
+	public Horaire(int id, String horaire, int idAuteur){
 		this.format("hh:mm");
 		this.hour=Integer.parseInt(horaire.substring(0, 2));
 		this.minute=Integer.parseInt(horaire.substring(3, 5));
 		this.idAuteur=idAuteur;
-		Log.d(idAuteur, "idAuteur");
+		this.id=id;
 	}
-	
-	public Horaire(int h, int m, String idAuteur){
+	/**
+	 * Constructeur pour recevoir des données
+	 * @param id
+	 * @param horaire
+	 * @param idAuteur
+	 */
+	public Horaire(int h, int m, int idAuteur){
 		this.format("hh:mm");
 		this.hour=h;
 		this.minute=m;
 		this.idAuteur=idAuteur;
-		Log.d(idAuteur, "idAuteur");
+		id=-1;
 	}
 	
-	public String getIdAuteur(){
+	public int getIdAuteur(){
 		return this.idAuteur;
 	}
 	
@@ -60,6 +80,10 @@ public class Horaire extends Time implements Comparable<Horaire>{
 		}
 		ret+=minute;
 		return ret;
+	}
+	
+	public int getId(){
+		return id;
 	}
 
 	@Override

@@ -9,14 +9,9 @@
 	       	android:id="@+id/list"
 	        android:layout_width="fill_parent"
     		android:layout_height="fill_parent"
-	  		android:divider="@null"
-			android:dividerHeight="10dp"
-			android:listSelector="@android:color/transparent" 
-			android:cacheColorHint="@android:color/transparent"
-			android:headerDividersEnabled="true"
-			android:footerDividersEnabled="true"
-			android:layout_marginLeft="10dp"
-			android:layout_marginRight="10dp">
+    		android:divider="#12000000"
+    		android:dividerHeight="2dp"
+    		>
     	</ListView>
     	
    </RelativeLayout>
