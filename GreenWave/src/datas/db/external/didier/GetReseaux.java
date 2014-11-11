@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import view.custom.LineList;
+import view.custom.ReseauList;
 
 import com.wavon.greenwave.R;
 
@@ -90,7 +91,7 @@ public class GetReseaux extends AsyncTask<Void, String, ArrayList<Reseau>> {
 			Reseau r = it.next();
 			offline.add(r);
 		}
-		ArrayAdapter<Reseau> adapter = new ArrayAdapter<Reseau>(a, R.layout.list_reseau, R.id.nom, offline);
+		ReseauList adapter = new ReseauList(a, offline);
 		lv_offline.setAdapter(adapter);
 	    lv_offline.setOnItemClickListener(new ReseauOnClickListener(a));
 	    lv_offline.setVisibility(View.VISIBLE);

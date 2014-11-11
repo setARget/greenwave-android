@@ -25,4 +25,6 @@
     <color name="white">#fafafa</color>
     <color name="textSecondaire">#54000000</color>
     
+    <color name="text">#87000000</color>
+    
 </resources>

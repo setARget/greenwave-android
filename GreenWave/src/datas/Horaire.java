@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class Horaire extends Time implements Comparable<Horaire>{
 	
-	private int id, idAuteur;
+	private int id, idAuteur, direction;
 	
 	/**
 	 * Constructeur pour envoyer des données
@@ -21,15 +21,17 @@ public class Horaire extends Time implements Comparable<Horaire>{
 		this.hour=Integer.parseInt(horaire.substring(0, 2));
 		this.minute=Integer.parseInt(horaire.substring(3, 5));
 		this.idAuteur=-1;
+		this.direction=-1;
 		this.id=id;
 	}
 	
-	public Horaire(int id, String horaire, int idAuteur){
+	public Horaire(int id, String horaire, int idAuteur, int direction){
 		this.format("hh:mm");
 		this.hour=Integer.parseInt(horaire.substring(0, 2));
 		this.minute=Integer.parseInt(horaire.substring(3, 5));
 		this.idAuteur=idAuteur;
 		this.id=id;
+		this.direction=direction;
 	}
 	/**
 	 * Constructeur pour recevoir des données
@@ -41,6 +43,7 @@ public class Horaire extends Time implements Comparable<Horaire>{
 		this.format("hh:mm");
 		this.hour=h;
 		this.minute=m;
+		this.direction=-1;
 		this.idAuteur=idAuteur;
 		id=-1;
 	}
@@ -84,6 +87,10 @@ public class Horaire extends Time implements Comparable<Horaire>{
 	
 	public int getId(){
 		return id;
+	}
+	
+	public int getDirection(){
+		return this.direction;
 	}
 
 	@Override

@@ -3,40 +3,55 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
      
-        <LinearLayout
+        <RelativeLayout
 	        android:id="@+id/fbLayout"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:orientation="vertical"
+	        android:orientation="horizontal"
 	      	android:layout_marginTop="0dp">
             <com.facebook.widget.ProfilePictureView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:id="@+id/drawer_fb"/> 
-    	</LinearLayout>
+            android:id="@+id/drawer_fb"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"/> 
+            <TextView
+             android:id="@+id/nomFB"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textColor="#87000000"
+             android:textSize="16sp"
+             android:layout_toRightOf="@+id/drawer_fb"
+             android:layout_centerVertical="true"/>
+    	</RelativeLayout>
         
-		<LinearLayout
+		<RelativeLayout
 		      android:id="@+id/itemLayout"
 		      android:layout_width="wrap_content"
 		      android:layout_height="wrap_content"
 		      android:layout_alignParentLeft="true"
-		      android:orientation="vertical"
-		 
-		      android:layout_marginTop="0dp"
-		      android:background="?android:attr/activatedBackgroundIndicator">
+		      android:orientation="horizontal"
+		      android:layout_marginTop="0dp">
 
                <ImageView
                       android:id="@+id/drawer_icon"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
+                      android:layout_marginRight="10dp"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginBottom="10dp"
                       />
  
                <TextView
                       android:id="@+id/drawer_itemName"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceLarge"
+                      android:layout_toRightOf="@+id/drawer_icon"
+                      android:textColor="#87000000"
+                      android:textSize="16sp"
+                      android:layout_centerVertical="true"
                        />
-    </LinearLayout>
+    	</RelativeLayout>
     
 </RelativeLayout>

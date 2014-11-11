@@ -28,7 +28,7 @@ public class Lorient extends Reseau{
 	
 	protected void chargerLignes(Context c){
 		
-		Ligne ligne22 =  new Ligne(1, "22", "Ploemeur Les Pins", "Lanester Grande Lande", "#ffffff", 1);
+		//Ligne ligne22 =  new Ligne(1, "22", "Ploemeur Les Pins", "Lanester Grande Lande", "#ffffff", 1);
 		/*
 		Ligne ligne1 = new Ligne(2, "1", "1A", "1B", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE), R.color.orange);
 		Ligne ligne2 = new Ligne(3, "2", "Lorient Kerulvé", "Lorient Gare Maritime", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW), R.color.jaune);
@@ -39,7 +39,7 @@ public class Lorient extends Reseau{
 		Ligne ligne51 = new Ligne("51", "Guidel Z.A. Pen Mané", "Ploemeur CRF Kerpape", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE), R.color.marron);
 		Ligne ligne52 = new Ligne("52", "Queven Bel Air", "Larmor-Plage Kerderff", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE), R.color.bleu);
 		*/
-		lignes.put(ligne22.getNom(), ligne22);
+		//lignes.put(ligne22.getNom(), ligne22);
 		/*
 		lignes.put(ligne2.getNom(), ligne2);
 		lignes.put(ligne21.getNom(), ligne21);

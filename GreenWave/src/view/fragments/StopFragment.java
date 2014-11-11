@@ -35,6 +35,7 @@ import control.listeners.button.NearestStopOnClickListener;
 import control.listeners.item.StopClickListener;
 import datas.Arret;
 import datas.Ligne;
+import datas.db.internal.JuniorDAO;
 
 /**
  * StopFragment is a Fragment which displays a list of bus stops.
@@ -108,7 +109,7 @@ private Home home;	// Current activity
 				v.findViewById(R.id.nearest).setVisibility(View.GONE);
 			}
 			
-			if(l.getFavorite()==1){
+			if(l.getFavorite()){
 				v.findViewById(R.id.star).setVisibility(View.VISIBLE);
 			}
 			else{
@@ -192,40 +193,49 @@ private Home home;	// Current activity
 	        // context menu logic
 			  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 			            .getMenuInfo();
-			    Arret a = (Arret) list.getItemAtPosition(info.position);
+			    final Arret a = (Arret) list.getItemAtPosition(info.position);
 	    
 			    ArrayList<Arret> arrets = new ArrayList<Arret>(Globale.engine.getLigneCourante().getArrets().values());
 			    if(a.getFavorite()==0){
-					    a.setFavorite(1);            
+			    	a.setFavorite(1);
+				    Thread t = new Thread(new Runnable(){
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							JuniorDAO dao = new JuniorDAO(home);
+							dao.open();
+							dao.setArretFavoris(a.getIdBdd());
+				    		dao.close();
+						}
+				    	
+				    });
+				    t.start();            
 			    }
 			    else{
 			    	a.setFavorite(0);
+				    Thread t = new Thread(new Runnable(){
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							JuniorDAO dao = new JuniorDAO(home);
+							dao.open();
+							dao.setArretNotFavoris(a.getIdBdd());
+				    		dao.close();
+						}
+				    	
+				    });
+				    t.start();
 			    }
 				Collections.sort(arrets);
 					    
 
 				arretAdapter = new StopList(v.getContext(), arrets, home);
-				//arretAdapter.addAll(arrets);
 				list.removeAllViewsInLayout();
 				list.setAdapter(arretAdapter);
 			    list.invalidate();
 			    
-			    Thread t = new Thread(new Runnable(){
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						/*
-						ArretsDAO dao = new ArretsDAO(home);
-			    		dao.open();
-			    		dao.save( Globale.engine.getLigneCourante().getArrets());
-			    		//dao.save(Globale.engine.getEntreprise().getArretsFavoris());
-			    		dao.close();
-			    		*/
-					}
-			    	
-			    });
-			    t.start();
 
 
 	        return true;

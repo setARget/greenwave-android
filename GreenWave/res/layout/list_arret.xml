@@ -19,7 +19,7 @@
 					 	android:layout_height="wrap_content"
 					 	android:layout_alignParentRight="true"
 					 	android:layout_centerVertical="true"
-						android:src="@drawable/star_full"
+						android:src="@drawable/starfull"
 						android:adjustViewBounds="true"
 						android:scaleType="fitCenter"
 						android:visibility="gone">

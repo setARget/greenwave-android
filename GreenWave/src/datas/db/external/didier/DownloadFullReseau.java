@@ -45,6 +45,13 @@ public class DownloadFullReseau extends AsyncTask<Void, String, HashMap<String, 
 	private ProgressDialog pd;
 	private Context c;
 	
+	public DownloadFullReseau(Context c, Reseau reseau, int newVersion){
+		this.reseau=reseau;
+		this.reseau.setVersion(newVersion);
+		Log.d(newVersion+"", "Nouvelle version");
+		this.c=c;
+	}
+	
 	public DownloadFullReseau(Context c, Reseau reseau){
 		this.reseau=reseau;
 		this.c=c;
@@ -107,7 +114,7 @@ public class DownloadFullReseau extends AsyncTask<Void, String, HashMap<String, 
     			double lat = jsonChildNode.optDouble("latitude");
     			double lng = jsonChildNode.optDouble("longitude");
     			int reseau = jsonChildNode.optInt("reseau");
-    			Arret a = new Arret(id, nom, new LatLng(lat, lng), reseau);
+    			Arret a = new Arret(id, nom, new LatLng(lat, lng), reseau, 0);
     			ret.put(nom, a);
     			this.publishProgress("Téléchargement des arrets du réseau de "+this.reseau.toString());
     			Log.d(a.toString(), "Nouvel arret trouvé");
@@ -160,7 +167,7 @@ public class DownloadFullReseau extends AsyncTask<Void, String, HashMap<String, 
    			double lat = jsonChildNode.optDouble("latitude");
    			double lng = jsonChildNode.optDouble("longitude");
    			int reseau = jsonChildNode.optInt("reseau");
-   			Arret a = new Arret(id, nom, new LatLng(lat, lng), reseau);
+   			Arret a = new Arret(id, nom, new LatLng(lat, lng), reseau, 0);
    			ret.put(nom, a);
    			Log.d(a.toString(), "Nouvel arret trouvé");
    		}
@@ -210,7 +217,7 @@ public class DownloadFullReseau extends AsyncTask<Void, String, HashMap<String, 
         			String direction1 = jsonChildNode.optString("direction1");
         			String direction2 = jsonChildNode.optString("direction2");
         			String couleur = jsonChildNode.optString("couleur");
-        			Ligne l = new Ligne(id, nom, direction1, direction2, couleur, 1);
+        			Ligne l = new Ligne(id, nom, direction1, direction2, couleur, 1, 0);
         			ret.put(nom, l);
         			this.publishProgress("Téléchargement de la "+l.toString());
         			Log.d(l.toString(), "Nouvelle ligne appartenant au reseau "+reseau.getIdBdd()+" découverte");
@@ -243,6 +250,7 @@ public class DownloadFullReseau extends AsyncTask<Void, String, HashMap<String, 
 		JuniorDAO dao = new JuniorDAO(c);
 		dao.open();
 		dao.insertReseau(reseau);
+		dao.close();
 		Globale.engine.setReseau(reseau, c);
 		Intent home = new Intent(c, Home.class);
   	    c.startActivity(home);

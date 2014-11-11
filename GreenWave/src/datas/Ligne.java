@@ -18,7 +18,7 @@ public class Ligne implements Comparable<Ligne>{
 	
 	// ----------- ATTRIBUTES
 	
-	private int idBdd, reseau;
+	private int idBdd, reseau, favoris;
 	private boolean favorite;
 	private String direction1, direction2, numero, color;
 	private BitmapDescriptor markerColor;
@@ -28,16 +28,16 @@ public class Ligne implements Comparable<Ligne>{
  // ----------- CONSTRUCTORS
     
 	
-	public Ligne(int idBdd, String numero, String direction1, String direction2, String color, int reseau){
+	public Ligne(int idBdd, String numero, String direction1, String direction2, String color, int reseau, int favoris){
 		this.idBdd=idBdd;
 		this.numero=numero;
 		this.direction1=direction1;
 		this.direction2=direction2;
 		this.color=color;
 		this.reseau = reseau;
-		favorite=false;
 		Log.d("Nouvelle Ligne", this.toString());
-		arrets = new HashMap<String, Arret>();		
+		arrets = new HashMap<String, Arret>();
+		this.setFavorite(favoris);
 	}
 	
 	// ---------- METHODS
@@ -57,17 +57,8 @@ public class Ligne implements Comparable<Ligne>{
 	
 	public int getReseau(){return reseau;}
 	
-	public int getFavorite(){
-		int ret;
-		
-		if(favorite == false){
-			ret = 0;
-		}
-		else{
-			ret = 1;
-		}
-		
-		return ret;
+	public boolean getFavorite(){
+		return this.favorite;
 	}
 	
 	public HashMap<String, Arret> getArrets(){return arrets;}

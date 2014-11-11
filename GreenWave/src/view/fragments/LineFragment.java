@@ -34,6 +34,7 @@ import control.Globale;
 import control.listeners.actions.GreenOnQueryTextListener;
 import control.listeners.item.LineClickListener;
 import datas.Ligne;
+import datas.db.internal.JuniorDAO;
 
 /**
  * LineFragment is a Fragment Object which shows up a list where you can select a bus line.
@@ -153,7 +154,7 @@ public class LineFragment extends Fragment{
 			    menu.setHeaderTitle("Gestion des Favoris");
 			    AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
 				Ligne l = (Ligne) list.getItemAtPosition(info.position);
-				if(l.getFavorite()==0)
+				if(!l.getFavorite())
 				menu.add("Ajouter "+l.toString()+" aux favoris");
 				else
 					menu.add("Retirer "+l.toString()+" des favoris");
@@ -164,34 +165,46 @@ public class LineFragment extends Fragment{
 		if (getUserVisibleHint()) {
 	    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 	            .getMenuInfo();
-	    Ligne l = (Ligne) list.getItemAtPosition(info.position);
+	    final Ligne l = (Ligne) list.getItemAtPosition(info.position);
 	    ArrayList<Ligne> lignes = new ArrayList<Ligne>(Globale.engine.getReseau().getLignes().values());
-	    if(l.getFavorite()==0){
-		    l.setFavorite(1);	
+	    if(!l.getFavorite()){
+		    l.setFavorite(1);
+		    Thread t = new Thread(new Runnable(){
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					JuniorDAO dao = new JuniorDAO(home);
+					dao.open();
+					dao.setLigneFavoris(l.getIdBdd());
+		    		dao.close();
+				}
+		    	
+		    });
+		    t.start();
+		    
 		}
 		else{
 			l.setFavorite(0);
+		    Thread t = new Thread(new Runnable(){
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					JuniorDAO dao = new JuniorDAO(home);
+					dao.open();
+					dao.setLigneNotFavoris(l.getIdBdd());
+		    		dao.close();
+				}
+		    	
+		    });
+		    t.start();
+		    
 		}
 	    Collections.sort(lignes);
 	    listAdapter = new LineList(v.getContext(), lignes, home);
 	    list.setAdapter(listAdapter);
 	    list.invalidate();
-	    Thread t = new Thread(new Runnable(){
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				/*
-				LignesDAO dao = new LignesDAO(home);
-	    		dao.open();
-	    		dao.save(Globale.engine.getReseau().getLignes());
-	    		dao.close();
-	    		*/
-			}
-	    	
-	    });
-	    t.start();
-	    
 
 		
 	    return true;

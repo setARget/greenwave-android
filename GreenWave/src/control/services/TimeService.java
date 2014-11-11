@@ -137,7 +137,7 @@ public class TimeService extends Service {
 				
 				NotificationCompat.Builder mBuilder =
 				        new NotificationCompat.Builder(c)
-				        .setSmallIcon(R.drawable.ic_launcher)
+				        .setSmallIcon(R.drawable.greenwav_ico)
 				        .setContentTitle("Dernier bus dans "+hms)
 				        .setContentText(ligne+" : "+ arret+ " ("+horaire+")");
 				// Creates an explicit intent for an Activity in your app

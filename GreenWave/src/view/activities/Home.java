@@ -1,6 +1,7 @@
 package view.activities;
 
 
+import java.io.File;
 import java.util.ArrayList;
 
 import view.custom.drawer.DrawerItem;
@@ -10,8 +11,10 @@ import view.fragments.LineFragment;
 import view.fragments.StopFragment;
 import view.fragments.TwitterFragment;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.ActionBar.Tab;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -39,6 +42,8 @@ import control.listeners.navigation.KiceoFragmentPagerAdapter;
 import control.listeners.navigation.KiceoTabListener;
 import control.listeners.navigation.SimpleOnChangePageListener;
 import control.services.TimeService;
+import datas.Utilisateur;
+import datas.db.internal.JuniorDAO;
 import datas.utility.TravelHelper;
 
 
@@ -67,8 +72,6 @@ public class Home extends FragmentActivity implements Globale{
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
-	 
-	private final String PREFS_NAME="launch";
 
 	
 	@Override
@@ -102,7 +105,7 @@ public class Home extends FragmentActivity implements Globale{
 
         ArrayList<DrawerItem> dataList = new ArrayList<DrawerItem>();
         dataList.add(new DrawerItem(true));
-        dataList.add(new DrawerItem(Globale.engine.getReseau().toString(), 0));
+        dataList.add(new DrawerItem(Globale.engine.getReseau().toString(), R.drawable.ic_action_place));
         dataList.add(new DrawerItem("A propos", R.drawable.ic_action_about));
         dataList.add(new DrawerItem("Réglages", R.drawable.ic_action_settings));
         dataList.add(new DrawerItem("Aide", R.drawable.ic_action_help));
@@ -204,17 +207,17 @@ public class Home extends FragmentActivity implements Globale{
         twitter = new TwitterFragment();
            
         lineTab = actionBar.newTab();
-        lineTab.setIcon(R.drawable.bus_line);
+        lineTab.setIcon(R.drawable.busline);
         lineTab.setTag("LIGNE");
         lineTab.setTabListener(new KiceoTabListener(line, this, viewPager)); //'this' because your activity implements a TabListener
         
         stopTab = actionBar.newTab();
-        stopTab.setIcon(R.drawable.bus_stop);
+        stopTab.setIcon(R.drawable.busstop);
         stopTab.setTag("ARRET");
         stopTab.setTabListener(new KiceoTabListener(stop, this, viewPager)); //'this' because your activity implements a TabListener
            
         mapTab = actionBar.newTab();
-        mapTab.setIcon(R.drawable.map);
+        mapTab.setIcon(R.drawable.maps);
         mapTab.setTag("CARTE");
         mapTab.setTabListener(new KiceoTabListener(map, this, viewPager)); //'this' because your activity implements a TabListener
 
@@ -268,13 +271,5 @@ public class Home extends FragmentActivity implements Globale{
 	 * @return datas.KiceoDatas
 	 */
 	public datas.KiceoDatas getDatas(){return Globale.engine;}
-	
-	private boolean isFirstLaunch() {
-	    // Restore preferences
-	    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-	    boolean isFirstLaunch = settings.getBoolean("isFirstLaunch", true);
-	    Log.i(".isFirstLaunch", "sharedPreferences ");
-	    return isFirstLaunch;
-	}
 	
 }

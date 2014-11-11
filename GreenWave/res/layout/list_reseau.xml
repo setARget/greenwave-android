@@ -4,22 +4,31 @@
 		android:layout_width="wrap_content"
    		android:layout_height="wrap_content">
 
-				    <TextView
-				        android:id="@+id/nom"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"
-		            	android:textSize="32sp">
-				    </TextView>
-				    
-				                   <View
-					      android:layout_width="match_parent"
-					      android:layout_height="1dp"
-					      android:layout_marginBottom="1dp"
-					      android:layout_marginTop="1dp"
-					      android:layout_marginLeft="10dp"
-					      android:layout_marginRight="10dp"
-					      android:background="#DADADC"
+    <ImageView 
+        android:id="@+id/logoReseau"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        />
+    <TextView
+              android:id="@+id/nom"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="#87000000"
+              android:textSize="24sp"
+              android:layout_centerHorizontal="true"
  
-      				 ></View>
+     />
+ 
+      <View
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:layout_marginBottom="1dp"
+      android:layout_marginTop="1dp"
+      android:layout_marginLeft="10dp"
+      android:layout_marginRight="10dp"
+      android:background="#DADADC"
+ 
+       ></View>
 
 </RelativeLayout>

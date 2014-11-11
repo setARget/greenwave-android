@@ -21,15 +21,13 @@ public class Arret implements Comparable<Arret>{
 	private LatLng latLng;
 	private Location location;
 	private int distance;
-	//private ArrayList<String> lignesDesservant;
 	private boolean favorite;
 	
 	
 	// ----------- CONSTRUTORS
 	
-	public Arret(int id, String nom, LatLng latLng, int reseau){
+	public Arret(int id, String nom, LatLng latLng, int reseau, int favoris){
 		this.idBdd = id;
-		//this.lignesDesservant = lignesDesservant; 
 		this.latLng=latLng;
 		this.nom = nom;
 		this.distance=-1;
@@ -37,7 +35,8 @@ public class Arret implements Comparable<Arret>{
 		this.location=new Location(nom);
 		this.location.setLatitude(latLng.latitude);
 		this.location.setLongitude(latLng.longitude);
-		favorite=false;
+		this.setFavorite(favoris);
+		
 	}
 	
 	// ----------- METHODS

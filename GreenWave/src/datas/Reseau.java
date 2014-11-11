@@ -47,8 +47,8 @@ public class Reseau implements Comparable<Reseau>{
 		return arrets;
 	}
 	
-	public int getImage(){
-		return 0;	// a modifier : Image est l'url qui donne vers l'image
+	public String getImage(){
+		return this.image;	// a modifier : Image est l'url qui donne vers l'image
 	}
 	
 	public String getTwitterTimeline(){return this.twitterTimeline;}
@@ -74,6 +74,10 @@ public class Reseau implements Comparable<Reseau>{
 	
 	public void setArrets(HashMap<String, Arret> arrets){
 		this.arrets = arrets;
+	}
+	
+	public void setVersion(int version){
+		this.version=version;
 	}
 
 	@Override

@@ -81,7 +81,7 @@ public class LineList extends ArrayAdapter<Ligne>{
 		
 		TextView sens2 = (TextView) view.findViewById(R.id.sens2);
 		sens2.setText(l.getDirection2());
-		if(l.getFavorite()==1){
+		if(l.getFavorite()){
 			view.findViewById(R.id.star).setVisibility(View.VISIBLE);
 		}
 		else{

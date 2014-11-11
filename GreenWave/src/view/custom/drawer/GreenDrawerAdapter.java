@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.widget.ProfilePictureView;
 import com.wavon.greenwave.R;
 
 import control.Globale;
@@ -53,14 +55,17 @@ public class GreenDrawerAdapter extends ArrayAdapter<DrawerItem> {
                   drawerHolder.itemName =(TextView) view
                               .findViewById(R.id.drawer_itemName);
                   
-                  drawerHolder.fbLayout=(LinearLayout) view
+                  drawerHolder.fbLayout=(RelativeLayout) view
                           .findViewById(R.id.fbLayout);
                   
-                  drawerHolder.itemLayout = (LinearLayout) view
+                  drawerHolder.itemLayout = (RelativeLayout) view
                           .findViewById(R.id.itemLayout);
                   
                   drawerHolder.fb = (com.facebook.widget.ProfilePictureView) view
                           .findViewById(R.id.drawer_fb);
+          			drawerHolder.fb.setPresetSize(ProfilePictureView.SMALL);
+                  
+                  drawerHolder.nomFB = (TextView) view.findViewById(R.id.nomFB);
 
                   drawerHolder.icon= (ImageView) view.findViewById(R.id.drawer_icon);
  
@@ -77,6 +82,7 @@ public class GreenDrawerAdapter extends ArrayAdapter<DrawerItem> {
                 //drawerHolder.headerLayout.setVisibility(LinearLayout.INVISIBLE);
             	if(Globale.engine.getUtilisateur().getIdFacebook()!=null){
             		drawerHolder.fb.setProfileId(Globale.engine.getUtilisateur().getIdFacebook());
+            		drawerHolder.nomFB.setText(Globale.engine.getUtilisateur().getPrenom());
             	}
             	
                 drawerHolder.itemLayout.setVisibility(LinearLayout.GONE);
@@ -89,15 +95,16 @@ public class GreenDrawerAdapter extends ArrayAdapter<DrawerItem> {
                 drawerHolder.fb.setVisibility(LinearLayout.GONE);
                 drawerHolder.itemLayout.setVisibility(LinearLayout.VISIBLE);
                 drawerHolder.itemName.setText(dItem.getItemName());
+                drawerHolder.icon.setBackgroundResource(dItem.getImage());
           }
 
             return view;
       }
             
             private static class DrawerItemHolder {
-                TextView itemName, title;
+                TextView itemName, title, nomFB;
                 ImageView icon;
-                LinearLayout itemLayout, fbLayout;
+                RelativeLayout itemLayout, fbLayout;
                 com.facebook.widget.ProfilePictureView fb;
           }
 }

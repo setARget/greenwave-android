@@ -131,7 +131,7 @@ public class GetPlaces extends AsyncTask<String, String, JSONObject> {
 						    break;
 						}
 						else if(thisType.contains("store")){
-						    currIcon = R.drawable.store;
+						    currIcon = R.drawable.shop;
 						    break;
 						}
 					}

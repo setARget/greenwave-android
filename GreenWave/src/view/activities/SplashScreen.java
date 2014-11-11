@@ -1,55 +1,29 @@
 package view.activities;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
-import android.net.Uri;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Base64;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ImageView;
 
-import com.facebook.LoginActivity;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
-import com.facebook.widget.LoginButton;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.maps.MapsInitializer;
 import com.wavon.greenwave.R;
 
 import control.Globale;
 import datas.KiceoDatas;
-import datas.Reseau;
 import datas.Utilisateur;
-import datas.db.external.didier.DownloadFullReseau;
 import datas.db.external.didier.GetUtilisateur;
 import datas.db.external.didier.GetVersion;
-import datas.db.external.didier.InsertUtilisateur;
 import datas.db.internal.JuniorDAO;
-import datas.db.internal.SetupReseau;
-import datas.reseau.Lorient;
-import datas.utility.NetworkUtil;
 
 /**
  * SplashScreen is the splashscreen activity. It shows up when the application is started to perform operations in the background.
@@ -57,11 +31,14 @@ import datas.utility.NetworkUtil;
  * @author Antoine Sauray
  * @version 0.1
  */
-public class SplashScreen extends Activity implements OnClickListener {
+public class SplashScreen extends Activity{
 	 
 	 // Show the Splash Screen for 3secs(3000ms)
 	long START_UP_DELAY = 1500L;
 	private boolean isResumed = false;
+	public static final String PREFS_NAME="gwpref";
+	public static final String PREFS_FB="fblogin";
+	private final String PREFS_FL="firstLaunch";
 	 
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 	    @Override
@@ -85,16 +62,32 @@ public class SplashScreen extends Activity implements OnClickListener {
 
 	  setContentView(R.layout.splash);
 	  
-	  LoginButton authButton = (LoginButton) findViewById(R.id.authButton);
-	  authButton.setReadPermissions(Arrays.asList("user_likes", "user_status"));
+	  ImageView img = (ImageView)findViewById(R.id.animation_vague);
+	  img.setBackgroundResource(R.drawable.wave_anim);
+	  AnimationDrawable frameAnimation = (AnimationDrawable) img.getBackground();
+	  frameAnimation.start();
+	 
 	  
-	  Button connexion = (Button) findViewById(R.id.noLogin);
-	  connexion.setOnClickListener(this);
-        
-        if(SplashScreen.ensureOpenSession()){
-        	authButton.setVisibility(View.GONE);
-        }
-
+	  Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isfirstrun", true);
+      if (isFirstRun) {
+    	  getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isfirstrun", false).commit();
+    	  Intent intent = new Intent(SplashScreen.this, FirstLaunch.class);
+	  	    startActivity(intent);
+	  	    this.finishSplashSreen();
+      }
+      else if(!getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean(PREFS_FB, false)){
+    	  JuniorDAO dao = new JuniorDAO(this);
+	 		dao.open();
+	 		if(dao.findReseaux().size()!=0){
+	 			new GetVersion(this).execute();
+	 		}
+	 		else{
+	 			Intent home = new Intent(SplashScreen.this, SelectionReseau.class);
+		  	    startActivity(home);
+		  	    this.finishSplashSreen();
+		  	   
+	 		}
+      }
 	  Log.d("oncreate", "oncreate");
 	 }
 	 
@@ -121,8 +114,6 @@ public class SplashScreen extends Activity implements OnClickListener {
 	 	private void makeMeRequest(final Session session) {
 		    // Make an API call to get user data and define a 
 		    // new callback to handle the response.
-	 		final SetupReseau t = new SetupReseau(this);
-	 		t.start();
 		    Request request = Request.newMeRequest(session, 
 		            new Request.GraphUserCallback() {
 		        @Override
@@ -138,12 +129,6 @@ public class SplashScreen extends Activity implements OnClickListener {
 		                	settings.edit().putBoolean("fb_logged", true);
 		                	GetUtilisateur t2 = new GetUtilisateur(user.getId());
 		                	t2.start();
-		                	try {
-								t2.join();
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
 		                }
 		                else{
 		                	Log.d("user error", "user error");
@@ -153,31 +138,24 @@ public class SplashScreen extends Activity implements OnClickListener {
 		                // Handle errors, will do so later.
 		            	Log.d(response.getError().getErrorMessage(), "error");
 		            }
-		            try {
-						t.join();
-				    	finishSplashSreen();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 		        }
 		    });
-		    request.executeAsync();
+			    request.executeAsync();
+			    
+		 		JuniorDAO dao = new JuniorDAO(this);
+		 		dao.open();
+		 		if(dao.findReseaux().size()!=0){
+		 			new GetVersion(this).execute();
+		 		}
+		 		else{
+		 			Intent home = new Intent(SplashScreen.this, SelectionReseau.class);
+			  	    startActivity(home);
+			  	    this.finishSplashSreen();
+			  	   
+		 		}
+		    
 		} 
 	 	
-	 	private void continuer(){
-	 		final SetupReseau t = new SetupReseau(this);
-	 		t.start();
-	 		try {
-				t.join();
-				finishSplashSreen();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	 		
-
-	 	}
 	 	
 	 	public void finishSplashSreen(){
 	        this.finish();
@@ -219,11 +197,4 @@ public class SplashScreen extends Activity implements OnClickListener {
 	        super.onSaveInstanceState(outState);
 	        lifecycleHelper.onSaveInstanceState(outState);
 	    }
-
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			this.continuer();
-		}
-
 }
