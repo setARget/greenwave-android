@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/addhoraire"
+          android:icon="@drawable/ajouter_horaire"
+          android:title="@string/addhoraire"
+          android:showAsAction="ifRoom"/>
+</menu>

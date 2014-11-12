@@ -79,6 +79,7 @@ public class SplashScreen extends Activity{
     	  JuniorDAO dao = new JuniorDAO(this);
 	 		dao.open();
 	 		if(dao.findReseaux().size()!=0){
+	 			dao.close();
 	 			new GetVersion(this).execute();
 	 		}
 	 		else{

@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import view.activities.Home;
+import view.activities.SplashScreen;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -119,6 +120,8 @@ public class DownloadFullReseau extends AsyncTask<Void, String, HashMap<String, 
     			this.publishProgress("Téléchargement des arrets du réseau de "+this.reseau.toString());
     			Log.d(a.toString(), "Nouvel arret trouvé");
     		}
+    		
+    		reseau.setArrets(ret);
     			
 	    } catch (MalformedURLException e) {
 
@@ -131,8 +134,6 @@ public class DownloadFullReseau extends AsyncTask<Void, String, HashMap<String, 
 	            conn.disconnect();
 	        }
 	    }
-		
-		reseau.setArrets(ret);
 	}
 
 	private void getArrets(Ligne l){

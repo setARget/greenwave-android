@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+        
+    <TextView
+        android:id="@+id/horaire"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textSize="32sp" />
+    
+    <TextView
+        android:id="@+id/renseignement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/horaire"
+        android:layout_marginTop="10dp"
+        android:text="@+string/renseignement"
+        android:textSize="12sp" />
+            
+        <com.facebook.widget.ProfilePictureView
+            android:id="@+id/userimageFB"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/horaire"/>
+      <LinearLayout
+           	android:id="@+id/infos"
+           	android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/horaire"
+           	android:layout_toRightOf="@+id/userimageFB"
+           >
+		           <TextView
+		        android:id="@+id/auteur"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textSize="16sp" />
+		           
+		                   <TextView
+		        android:id="@+id/ratio"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"/>
+		                   
+		        <TextView
+		        android:id="@+id/nbHoraires"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textSize="16sp" />
+		                   
+		        <TextView
+		        android:id="@+id/nbErreurs"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textSize="16sp" />
+        </LinearLayout>
+                   
+
+            <LinearLayout
+           	android:id="@+id/statutLayout"
+           	android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/infos"
+           >
+	          <RatingBar
+	                android:id="@+id/rating"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="10dp"
+	              	/>
+	          
+			       <TextView
+			        android:id="@+id/statut"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+					/>
+       	
+       		</LinearLayout>
+       		
+
+
+    
+     <RelativeLayout
+           	android:id="@+id/signalLayout"
+           	android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/statutLayout"
+           >
+				<ImageButton
+		        android:id="@+id/no_approve"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:src="@drawable/signaler" />
+	    
+		    	<ImageButton
+		        android:id="@+id/approve"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentRight="true"
+		        android:src="@drawable/approuver" />
+		        </RelativeLayout>
+		        
+     		<ProgressBar
+		     android:id="@+id/loadingDetails"
+		     android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:layout_centerInParent="true" />
+
+</RelativeLayout>
+		

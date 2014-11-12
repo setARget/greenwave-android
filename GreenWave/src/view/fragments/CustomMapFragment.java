@@ -75,14 +75,14 @@ public class CustomMapFragment extends SupportMapFragment{
 		 v = inflater.inflate(R.layout.fragment_map, container, false);
 		 
 	     home = (Home) this.getActivity();
+			 gMap = (((com.google.android.gms.maps.SupportMapFragment)this.getActivity().getSupportFragmentManager().findFragmentById(R.id.map)).getMap());
 	      
-		 gMap = (((com.google.android.gms.maps.SupportMapFragment)this.getActivity().getSupportFragmentManager().findFragmentById(R.id.map)).getMap());
-      
-		 gMap.setMyLocationEnabled(true);
-		 gMap.setTrafficEnabled(true);
-		 gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(47.748122, -3.364546), 14.0f) );
-		 
+			 gMap.setMyLocationEnabled(true);
+			 gMap.setTrafficEnabled(true);
+			 gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(47.748122, -3.364546), 14.0f) );
+		    
 		 sharedPref = PreferenceManager.getDefaultSharedPreferences(home);
+
  
 	      initInterface();
 	      attachReactions();
