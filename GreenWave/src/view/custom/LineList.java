@@ -31,19 +31,17 @@ public class LineList extends ArrayAdapter<Ligne>{
 	private final Context context;
 	private ArrayList<Ligne> originalList;
 	private ArrayList<Ligne> items;
-	private Home home;
 	
 	private ListFilter filter;
 	private final Object mLock = new Object();
 
-	public LineList(Context context, ArrayList<Ligne> array, Home home) {
+	public LineList(Context context, ArrayList<Ligne> array) {
 		super(context, R.layout.list_ligne, array);
 		this.context = context;
 		originalList = new ArrayList<Ligne>();
 		items=array;
 		Collections.sort(items);
 		cloneItems(array);
-		this.home=home;
 	}
 	
 	protected void cloneItems(ArrayList<Ligne> items) {

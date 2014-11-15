@@ -13,11 +13,16 @@ import org.json.JSONObject;
 
 import com.wavon.greenwave.R;
 
+import control.Globale;
+
 import datas.Horaire;
 import datas.Utilisateur;
 import datas.db.external.didier.Reclamation;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,7 +37,7 @@ public class HoraireDetail extends Dialog implements Runnable, android.view.View
 	private Horaire h;
 	private Utilisateur auteur;
 	private TextView horaire, auteurText, ratio, statut, nbErreurs, nbHoraires;
-	private ImageView smiley,reclamation ;
+	private ImageView smiley,reclamation, approbation;
 	private com.facebook.widget.ProfilePictureView image;
 	private ProgressBar loading;
 	private RatingBar bar;
@@ -60,17 +65,17 @@ public class HoraireDetail extends Dialog implements Runnable, android.view.View
 		if(auteur.getIdFacebook()!=null){
 			image.setProfileId(auteur.getIdFacebook());
 		}
-		ratio.setText((auteur.getRatio()*100)+"% des horaires valides");
+		ratio.setText((auteur.getRatio())+"% des horaires valides");
 		float ratio = auteur.getRatio();
-		bar.setRating(ratio*5);
-		if(ratio*100<50){
+		bar.setRating(ratio*0.05f);
+		if(ratio<50){
 			//smiley.setImageResource(R.drawable.no_confiance);
 		}
 		else{
 			//smiley.setImageResource(R.drawable.confiance);
 		}
 		horaire.setText(h.toString());
-		auteurText.setText(auteur.getPrenom()+" "+auteur.getNom());	
+		auteurText.setText(auteur.getPrenom());	
 		nbHoraires.setText(auteur.getNbHoraires()+" horaires renseignées");
 		nbErreurs.setText(auteur.getNbErreurs()+" erreurs");
 		switch(auteur.getStatut()){
@@ -104,25 +109,30 @@ public class HoraireDetail extends Dialog implements Runnable, android.view.View
 			break;
 		
 		}
-
 	}
 	
 	private void initInterface(){
+		this.setTitle(Globale.engine.getArretCourant().toString());
 		horaire = (TextView) this.findViewById(R.id.horaire);
 		auteurText = (TextView) this.findViewById(R.id.auteur);
 		statut = (TextView) this.findViewById(R.id.statut);
 		nbHoraires = (TextView) this.findViewById(R.id.nbHoraires);
 		nbErreurs = (TextView) this.findViewById(R.id.nbErreurs);
-		reclamation = (ImageView) this.findViewById(R.id.approve);
+		reclamation = (ImageView) this.findViewById(R.id.no_approve);
+		approbation = (ImageView) this.findViewById(R.id.approve);
 		loading = (ProgressBar) this.findViewById(R.id.loadingDetails);
 		image = (com.facebook.widget.ProfilePictureView) this.findViewById(R.id.userimageFB);
 		ratio = (TextView) this.findViewById(R.id.ratio);
 		bar = (RatingBar) this.findViewById(R.id.rating);
 		loading.setVisibility(View.VISIBLE);
+		
+		bar.setActivated(false);
+		bar.setEnabled(false);
 	}
 	
 	private void attachReactions(){
 		reclamation.setOnClickListener(this);
+		approbation.setOnClickListener(this);
 	}
 
 	@Override
@@ -180,17 +190,38 @@ public class HoraireDetail extends Dialog implements Runnable, android.view.View
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		Reclamation t = new Reclamation(h.getId(), h.getIdAuteur());
-		t.start();
-		try {
-			t.join();
-			Toast.makeText(c,
-					"Réclamation envoyée",
-					Toast.LENGTH_LONG).show();
-			
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(v==reclamation){
+			if(Globale.engine.getUtilisateur().getQuota()>0){
+				Reclamation t = new Reclamation(h.getId(), h.getIdAuteur());
+				t.start();
+				try {
+					t.join();
+					AlertDialog.Builder builder = new AlertDialog.Builder(c);
+					builder.setTitle("Horaire signalée");
+					builder.setMessage("Merci de nous aider à rendre notre contenu plus fiable !\n Vous pouvez encore signaler ou ajouter "+Globale.engine.getUtilisateur().getQuota()+" horaires aujourd'hui :)");
+					builder.setNeutralButton("Ok", null);
+				   	builder.show();
+					
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+				else{
+					AlertDialog.Builder builder = new AlertDialog.Builder(c);
+					builder.setTitle("Quota atteint");
+					builder.setMessage("Merci pour votre aide !\n Cependant il semble que vous ayez atteint le nombre maximum de modifications et d'ajout horaires aujourd'hui :)");
+					builder.setNeutralButton("Ok", null);
+				   	builder.show();
+				}
+			}
+		
+		else{
+			AlertDialog.Builder builder = new AlertDialog.Builder(c);
+			builder.setTitle("Quota atteint");
+			builder.setMessage("Merci pour votre aide !\n En nous signalants les horaires valides vous aidez à rendre notre contenu plus fiable :)");
+			builder.setNeutralButton("Ok", null);
+		   	builder.show();
 		}
 	}
 

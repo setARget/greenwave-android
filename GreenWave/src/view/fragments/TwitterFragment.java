@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.wavon.greenwave.R;
 
 import control.Globale;
+import datas.utility.NetworkUtil;
 
 /**
  * TwitterFragment is a fragment which displays a Twitter Feed.
@@ -32,6 +33,7 @@ public class TwitterFragment extends Fragment{
     
     private WebView webView;
     private RelativeLayout loadingTwitter;
+    private RelativeLayout offline, online;
     private RelativeLayout textLayout;
     
     @Override
@@ -44,6 +46,8 @@ public class TwitterFragment extends Fragment{
 	  loadingTwitter = (RelativeLayout) v.findViewById(R.id.loadingTwitter);
 	  textLayout = (RelativeLayout) v.findViewById(R.id.textLayout);
 	  
+	  offline = (RelativeLayout) v.findViewById(R.id.offline);
+	  online = (RelativeLayout) v.findViewById(R.id.online);
 	  
       webView.getSettings().setDomStorageEnabled(true);
       webView.getSettings().setJavaScriptEnabled(true);
@@ -51,20 +55,20 @@ public class TwitterFragment extends Fragment{
       webView.setWebViewClient(new WebViewClient() {
     	  
     	  public void onPageStarted(WebView view, String url, Bitmap favicon){
-    		  textLayout.setVisibility(View.GONE);
-    		  webView.setVisibility(View.GONE);
+    		  textLayout.setVisibility(View.INVISIBLE);
    		   	  loadingTwitter.setVisibility(View.VISIBLE);
+    		  //webView.setVisibility(View.INVISIBLE);
     	  }
     	  
     	   public void onPageFinished(WebView view, String url) {
-    	        // do your stuff here
+    	        // do your stuff here    		   
     		   webView.setVisibility(View.VISIBLE);
-    		   loadingTwitter.setVisibility(View.GONE);
+    		   loadingTwitter.setVisibility(View.INVISIBLE);
     	    }
-    	   public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {	
-    		   TextView text = (TextView) v.findViewById(R.id.text);
-    		   text.setText("Erreur de connexion : "+description);
-    	        textLayout.setVisibility(View.VISIBLE);
+    	   public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+    		   Log.d("error twitter", "error twitter");
+    		  	//online.setVisibility(View.INVISIBLE);
+     		  	//offline.setVisibility(View.VISIBLE);
     	    }
     	   
     	   @Override
@@ -93,17 +97,10 @@ public class TwitterFragment extends Fragment{
     	   
     	});
       
-	  if(Globale.engine.getReseau().getTwitterTimeline()!=null){
 		  webView.loadDataWithBaseURL(baseURl, "<a class=\"twitter-timeline\"href=\"https://twitter.com/GreenWavProject\" data-widget-id=\"531145856087379968\"></a>"
 		            +"<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.async=true;js.src=p+\"://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>", "text/html", "UTF-8", null);
-	  }
-	  else{
-		 webView.setVisibility(View.GONE);
-		 loadingTwitter.setVisibility(View.GONE);
-		 textLayout.setVisibility(View.VISIBLE);
-	  }
 
-  	setHasOptionsMenu(true);
+		  setHasOptionsMenu(true);
 	  return v;
 	 }
 	
@@ -111,6 +108,14 @@ public class TwitterFragment extends Fragment{
 	public void onResume() {
 		  super.onResume();
 		  Log.d("OnResume()", "Actualite");
+		  if(!NetworkUtil.isConnected(getActivity())){
+			  offline.setVisibility(View.VISIBLE);
+			  online.setVisibility(View.INVISIBLE);
+		  }
+		  else{
+			  offline.setVisibility(View.INVISIBLE);
+			  online.setVisibility(View.VISIBLE);
+		  }
 	   }
 	   
 	@Override
@@ -118,8 +123,6 @@ public class TwitterFragment extends Fragment{
 	{
 		super.setUserVisibleHint(visible);
 		if (visible && isResumed()){
-			//Only manually call onResume if fragment is already visible
-			//Otherwise allow natural fragment lifecycle to call onResume
 			onResume();
 		}
 	} 

@@ -19,13 +19,11 @@ import android.widget.AdapterView.OnItemClickListener;
 public class LineRouteClickListener implements Globale, OnItemClickListener, Runnable{
 
 	private String s;
-	private Route route;
 	private Context c;
 	private Ligne l;
 	
-	public LineRouteClickListener(Route route, Context c){
+	public LineRouteClickListener(Context c){
 		this.c=c;
-		this.route=route;
 	}
 	
 	@Override
@@ -33,8 +31,7 @@ public class LineRouteClickListener implements Globale, OnItemClickListener, Run
 			long id) {
 		// TODO Auto-generated method stub
 		
-			s = (String) parent.getItemAtPosition(position);
-			l = Globale.engine.getReseau().getLignes().get(s);
+			l = (Ligne) parent.getItemAtPosition(position);
 			if(l==null){
 				//l = Globale.engine.getEntreprise().getLignesFavorites().get(s);
 			}
@@ -44,9 +41,8 @@ public class LineRouteClickListener implements Globale, OnItemClickListener, Run
 			Globale.engine.setUpdateLigne(true);
 			Globale.engine.setDefaultFragment(3);
 			this.run();
-			Intent intent = new Intent(route, Home.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			route.startActivity(intent);
+			Intent intent = new Intent(c, Home.class);
+			c.startActivity(intent);
 	}
 	
 	@Override

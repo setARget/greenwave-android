@@ -27,7 +27,7 @@ public class OnFocusChangeListener implements android.view.View.OnFocusChangeLis
 	private TextView text;
 	private Cursor cursor;
 	
-	public OnFocusChangeListener(android.widget.SearchView search, Home home){
+	public OnFocusChangeListener(android.widget.SearchView search, final Home home){
 		this.home=home;
 		this.search=search;
 		c = new CursorAdapter(home, null, 0){
@@ -37,7 +37,8 @@ public class OnFocusChangeListener implements android.view.View.OnFocusChangeLis
 			public void bindView(View view, Context context, Cursor cursor) {
 				// TODO Auto-generated method stub
 				
-					    TextView name = (TextView)view.findViewById(R.id.text);               
+					    TextView name = (TextView)view.findViewById(R.id.text); 
+					    name.setTextSize(20);
 					    name.setText(cursor.getString(1));
 			}
 
@@ -46,6 +47,7 @@ public class OnFocusChangeListener implements android.view.View.OnFocusChangeLis
 					ViewGroup parent) {
 				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 			    View retView = inflater.inflate(R.layout.item,parent,false);
+			    retView.setBackgroundColor(home.getResources().getColor(R.color.white));
 			    return retView;
 			}
 			

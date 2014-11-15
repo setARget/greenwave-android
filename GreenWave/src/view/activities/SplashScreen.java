@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -66,30 +69,48 @@ public class SplashScreen extends Activity{
 	  img.setBackgroundResource(R.drawable.wave_anim);
 	  AnimationDrawable frameAnimation = (AnimationDrawable) img.getBackground();
 	  frameAnimation.start();
-	 
-	  
-	  Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isfirstrun", true);
-      if (isFirstRun) {
-    	  getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isfirstrun", false).commit();
-    	  Intent intent = new Intent(SplashScreen.this, FirstLaunch.class);
-	  	    startActivity(intent);
-	  	    this.finishSplashSreen();
-      }
-      else if(!getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean(PREFS_FB, false)){
-    	  JuniorDAO dao = new JuniorDAO(this);
-	 		dao.open();
-	 		if(dao.findReseaux().size()!=0){
-	 			dao.close();
-	 			new GetVersion(this).execute();
-	 		}
-	 		else{
-	 			Intent home = new Intent(SplashScreen.this, SelectionReseau.class);
-		  	    startActivity(home);
+	  final int animTime = getAnimationDuration(frameAnimation);
+	  Thread t = new Thread(new Runnable(){
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			SystemClock.sleep(animTime);
+		}
+		  
+	  });
+	  t.start();
+	  try{
+		  t.join();
+		  
+		  Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isfirstrun", true);
+	      if (isFirstRun) {
+	    	  getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isfirstrun", false).commit();
+	    	  Intent intent = new Intent(SplashScreen.this, FirstLaunch.class);
+		  	    startActivity(intent);
 		  	    this.finishSplashSreen();
-		  	   
-	 		}
-      }
-	  Log.d("oncreate", "oncreate");
+	      }
+	      else if(!getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean(PREFS_FB, false)){
+	    	  JuniorDAO dao = new JuniorDAO(this);
+		 		dao.open();
+		 		if(dao.findReseaux().size()!=0){
+		 			dao.close();
+		 			new GetVersion(this).execute();
+		 		}
+		 		else{
+		 			Intent home = new Intent(SplashScreen.this, SelectionReseau.class);
+			  	    startActivity(home);
+			  	    this.finishSplashSreen();
+		 		}
+	      }
+		  Log.d("oncreate", "oncreate");
+	  }
+	  catch(InterruptedException e){
+		  
+	  }
+	  
+	 
+	 
 	 }
 	 
 	 public static boolean ensureOpenSession() {
@@ -198,4 +219,13 @@ public class SplashScreen extends Activity{
 	        super.onSaveInstanceState(outState);
 	        lifecycleHelper.onSaveInstanceState(outState);
 	    }
+	    
+	    private int getAnimationDuration(AnimationDrawable src){
+	    	  int dur = 0;
+	    	  for(int i=0; i<src.getNumberOfFrames(); i++){
+	    	   dur += src.getDuration(i);
+	    	  }
+	    	  return dur;
+	   }
+
 }

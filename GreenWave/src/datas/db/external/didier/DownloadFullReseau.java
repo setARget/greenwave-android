@@ -27,10 +27,14 @@ import datas.Ligne;
 import datas.Reseau;
 import datas.db.internal.JuniorDAO;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -250,11 +254,23 @@ public class DownloadFullReseau extends AsyncTask<Void, String, HashMap<String, 
 		pd.dismiss();
 		JuniorDAO dao = new JuniorDAO(c);
 		dao.open();
+		if(dao.findReseaux().size()==0){
+			SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
+            editor.putString("pref_reseau",reseau.toString());
+            editor.apply();
+		}
 		dao.insertReseau(reseau);
 		dao.close();
 		Globale.engine.setReseau(reseau, c);
-		Intent home = new Intent(c, Home.class);
-  	    c.startActivity(home);
+		Intent mStartActivity = new Intent(c, Home.class);
+		this.c.startActivity(mStartActivity);
+		/*
+		int mPendingIntentId = 123456;
+		PendingIntent mPendingIntent = PendingIntent.getActivity(c, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+		AlarmManager mgr = (AlarmManager)c.getSystemService(Context.ALARM_SERVICE);
+		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+		System.exit(0);
+		*/
 	}
 		
 }

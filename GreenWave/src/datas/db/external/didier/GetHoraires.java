@@ -156,7 +156,6 @@ public class GetHoraires extends AsyncTask<Void, String, ArrayList<Horaire>> {
 		            textView.setPadding(20, 20, 20, 20);
 	        		textView.setTextColor(c.getResources().getColor(R.color.text));	
 	        		textView.setPaintFlags(textView.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
-	        		textView.setTextIsSelectable(true);
 		            tableRow.addView(textView);
 		            textView.setOnClickListener(new OnHoraireClickedListener(c, tmp));
 		            j++;

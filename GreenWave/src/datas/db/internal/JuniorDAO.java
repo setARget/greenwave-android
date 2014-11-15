@@ -145,7 +145,7 @@ public class JuniorDAO {
 			        }
 			  }
 			  
-			  Log.d(reseau.getNom(), "JUNIOR : Nouveau réseau");
+			  Log.d(reseau.getNom() + ", VERSION = " + reseau.getVersion(), "JUNIOR : Nouveau réseau ICI");
 			  return ret;
 		  }
 		  
@@ -170,9 +170,10 @@ public class JuniorDAO {
 				  tmp.setLignes(findLignes(tmpId));
 				  
 				  ret.add(tmp);
+				  
+				  Log.d(tmp.getNom()+ ", VERSION = " + tmp.getVersion(), "JUNIOR : Appel d'un réseau");
 			  }
 			  
-			  Log.d("", "JUNIOR : FIND Reseau");
 			  c.close();
 			  
 			  return ret;
@@ -187,11 +188,12 @@ public class JuniorDAO {
 		    	  tmpLigne = itLigne.next();
 		    	  this.removeAssociation(tmpLigne.getIdBdd());
 		    	  this.removeHoraireLigne(tmpLigne.getIdBdd());
-		      }  
-		      this.removeArret(id);
+		      } 
+		      
 		      this.removeLigne(id);
+		      this.removeArret(id);
 			  
-		      Log.d(""+ id, "JUNIOR : suprresion réseau");
+		      Log.d(""+ id, "JUNIOR : suprresion réseau ICIIIII");
 		      
 			  return db.delete(RESEAU, RESEAU_ID + " = " + id, null);
 		  }

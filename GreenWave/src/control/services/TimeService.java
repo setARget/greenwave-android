@@ -1,20 +1,14 @@
 package control.services;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
-
 import com.wavon.greenwave.R;
 
 import view.activities.Home;
 
-import control.Globale;
 import datas.Arret;
-import datas.Ligne;
 import datas.utility.CSVReader;
 
 import android.app.AlarmManager;
@@ -40,7 +34,6 @@ import android.widget.Toast;
  */
 public class TimeService extends Service {
 
-	
 		private NotificationManager mNotificationManager;
 		public final int lastBusID=0;
 		private CSVReader csvReader;

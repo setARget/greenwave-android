@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -25,6 +26,7 @@ import control.Globale;
 import datas.KiceoDatas;
 import datas.Utilisateur;
 import datas.db.external.didier.GetUtilisateur;
+import datas.utility.NetworkUtil;
 
 public class FBLogin extends FragmentActivity{
 	
@@ -51,6 +53,12 @@ public class FBLogin extends FragmentActivity{
 		  
 		  LoginButton authButton = (LoginButton) findViewById(R.id.authButton);
 		  authButton.setReadPermissions(Arrays.asList("user_likes", "user_status"));
+		  
+		  if(!NetworkUtil.isConnected(this)){
+			  Toast.makeText(this,
+						"Vous n'êtes pas connecté à un réseau",
+						Toast.LENGTH_LONG).show();
+		  }
 
 		  Log.d("oncreate", "oncreate");
 		 }
@@ -113,8 +121,6 @@ public class FBLogin extends FragmentActivity{
 			    });
 			    request.executeAsync();
 			    this.getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean(SplashScreen.PREFS_FB, true).commit();
-			    Intent home = new Intent(FBLogin.this, Home.class);
-		  	    startActivity(home);
 		  	    this.finish();
 			} 
 		 	

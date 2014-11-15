@@ -85,7 +85,7 @@ public class Home extends FragmentActivity implements Globale{
         attachReactions();
         
         if(Globale.engine.getUtilisateur().getNom() != null && Globale.engine.getUtilisateur().getPrenom()!=null){
-        	this.getActionBar().setTitle(Globale.engine.getUtilisateur().getPrenom()+" "+Globale.engine.getUtilisateur().getNom());
+        	this.getActionBar().setTitle(Globale.engine.getUtilisateur().getPrenom());
         }
         
         ProfilePictureView mImage = new ProfilePictureView(this);
@@ -130,7 +130,13 @@ public class Home extends FragmentActivity implements Globale{
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getActionBar().setTitle("GreenWave");
+                if(Globale.engine.getUtilisateur().getNom()!=null){
+                	getActionBar().setTitle(Globale.engine.getUtilisateur().getPrenom());
+                }
+                else{
+                	getActionBar().setTitle(R.string.app_name);
+                }
+                
             }
 
             /** Called when a drawer has settled in a completely open state. */

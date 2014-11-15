@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -66,6 +67,8 @@ public class GreenDrawerAdapter extends ArrayAdapter<DrawerItem> {
           			drawerHolder.fb.setPresetSize(ProfilePictureView.SMALL);
                   
                   drawerHolder.nomFB = (TextView) view.findViewById(R.id.nomFB);
+                  
+                  drawerHolder.bar = (RatingBar) view.findViewById(R.id.etoiles);
 
                   drawerHolder.icon= (ImageView) view.findViewById(R.id.drawer_icon);
  
@@ -83,16 +86,22 @@ public class GreenDrawerAdapter extends ArrayAdapter<DrawerItem> {
             	if(Globale.engine.getUtilisateur().getIdFacebook()!=null){
             		drawerHolder.fb.setProfileId(Globale.engine.getUtilisateur().getIdFacebook());
             		drawerHolder.nomFB.setText(Globale.engine.getUtilisateur().getPrenom());
+            		drawerHolder.bar.setRating(Globale.engine.getUtilisateur().getRatio()*0.05f);
+            	}
+            	else{
+            		drawerHolder.nomFB.setText("Se Connecter");
             	}
             	
                 drawerHolder.itemLayout.setVisibility(LinearLayout.GONE);
                 drawerHolder.fb.setVisibility(LinearLayout.VISIBLE);
+                drawerHolder.bar.setVisibility(View.VISIBLE);
                 drawerHolder.fbLayout.setVisibility(LinearLayout.VISIBLE);          
 
             }
             else {
                 drawerHolder.fbLayout.setVisibility(LinearLayout.GONE);
                 drawerHolder.fb.setVisibility(LinearLayout.GONE);
+                drawerHolder.bar.setVisibility(View.INVISIBLE);
                 drawerHolder.itemLayout.setVisibility(LinearLayout.VISIBLE);
                 drawerHolder.itemName.setText(dItem.getItemName());
                 drawerHolder.icon.setBackgroundResource(dItem.getImage());
@@ -105,6 +114,7 @@ public class GreenDrawerAdapter extends ArrayAdapter<DrawerItem> {
                 TextView itemName, title, nomFB;
                 ImageView icon;
                 RelativeLayout itemLayout, fbLayout;
+                RatingBar bar;
                 com.facebook.widget.ProfilePictureView fb;
           }
 }

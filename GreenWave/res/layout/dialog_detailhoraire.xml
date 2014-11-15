@@ -105,14 +105,20 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_alignParentLeft="true"
-		        android:src="@drawable/signaler" />
+		        android:src="@drawable/signaler"
+		        android:background="@null"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginBottom="10dp" />
 	    
 		    	<ImageButton
 		        android:id="@+id/approve"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_alignParentRight="true"
-		        android:src="@drawable/approuver" />
+		        android:src="@drawable/approuver"
+		        android:background="@null"
+		        android:layout_marginRight="10dp"
+		        android:layout_marginBottom="10dp" />
 		        </RelativeLayout>
 		        
      		<ProgressBar

@@ -1,9 +1,11 @@
 package datas.utility;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import view.activities.Route;
+import view.custom.LineList;
 import view.custom.RouteList;
 
 import control.Globale;
@@ -15,6 +17,8 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 /**
  * © Copyright 2014 Antoine Sauray
@@ -25,14 +29,16 @@ public class CalculerItineraire extends AsyncTask <Float,String, ArrayList<Ligne
 
 	private Location currentLocation, destination;
 	private Context c;
-	private Route route;
+	private RelativeLayout layout;
+	private ListView list;
 	
-	public CalculerItineraire(Context c, Route route, Location destination){
+	public CalculerItineraire(Context c, RelativeLayout layout, ListView list, Location destination){
 		currentLocation = Globale.engine.getLocation();
 		this.destination = destination;
 		this.c=c;
-		this.route=route;
-		route.getLayout().setVisibility(View.VISIBLE);
+		this.layout=layout;
+		this.list=list;
+		layout.setVisibility(View.VISIBLE);
 	}
 	
 	@Override
@@ -44,6 +50,9 @@ public class CalculerItineraire extends AsyncTask <Float,String, ArrayList<Ligne
 			ArrayList<Arret> arretsProcheUtilisateur = null;
 			ArrayList<Arret> arretsProcheDestination = null;
 			
+			arretsProcheUtilisateur = getArretsProcheUtilisateur(params[0]);
+			arretsProcheDestination = getArretsProcheDestination(params[1]);		
+			/*
 			while(distance < params[0]){
 				arretsProcheUtilisateur = getArretsProcheUtilisateur(distance);			
 				nb = arretsProcheUtilisateur.size();
@@ -60,16 +69,9 @@ public class CalculerItineraire extends AsyncTask <Float,String, ArrayList<Ligne
 				Log.d("Nombre d'arrets à moins de "+distance+"m de la destination", nb+"");
 				distance=distance+100;
 			}
-			Iterator<Arret> itProcheUtilisateur = arretsProcheUtilisateur.iterator();
+			*/
+			ret = chercheLignes(arretsProcheUtilisateur, arretsProcheDestination);
 			
-			while(itProcheUtilisateur.hasNext()){
-				Arret a1 = itProcheUtilisateur.next();
-				Iterator<Arret> itProcheDestination = arretsProcheDestination.iterator();
-				while(itProcheDestination.hasNext()){
-					Arret a2 = itProcheDestination.next();
-					ret.addAll(chercheLignes(a1, a2));
-				}
-			}
 		}
 		else{
 			Log.d("Nombre d'arrets", "Erreur location");
@@ -86,12 +88,11 @@ public class CalculerItineraire extends AsyncTask <Float,String, ArrayList<Ligne
 	@Override
 	protected void onPostExecute(ArrayList<Ligne> result) {
 	    super.onPostExecute(result);
-	    Log.d("Result size", result.size()+"");
-	    RouteList listAdapter = new RouteList(c, result);
-		route.getList().setAdapter(listAdapter);
-		route.getList().refreshDrawableState();
-		route.getList().setOnItemClickListener(new LineRouteClickListener(route, c));
-		route.getLayout().setVisibility(View.GONE);
+	    Log.d(result.size()+"", "Result size");
+	    LineList listAdapter = new LineList(c, result);
+		list.setAdapter(listAdapter);
+		list.refreshDrawableState();
+		layout.setVisibility(View.INVISIBLE);
 	}
 	
 	private ArrayList<Arret> getArretsProcheUtilisateur(float distance){
@@ -122,15 +123,20 @@ public class CalculerItineraire extends AsyncTask <Float,String, ArrayList<Ligne
 		}
 		return ret;
 	}
+	
+	private ArrayList<Ligne> chercheLignes(ArrayList<Arret> a1, ArrayList<Arret> a2){
 
-	private ArrayList<Ligne> chercheLignes(Arret a1, Arret a2){
-		
+		a1.retainAll(a2);
 		ArrayList<Ligne> ret = new ArrayList<Ligne>();
-		Iterator<Ligne> it = Globale.engine.getReseau().getLignes().values().iterator();
+		Iterator<Arret> it = a1.iterator();
 		while(it.hasNext()){
-			Ligne l = it.next();
-			if(l.getArrets().containsValue(a1) && l.getArrets().containsValue(a2)){
-				ret.add(l);
+			Arret a = it.next();
+			Iterator<Ligne> itLignes = Globale.engine.getReseau().getLignes().values().iterator();
+			while(itLignes.hasNext()){
+				Ligne l = itLignes.next();
+				if(l.getArrets().containsKey(a.toString()) && !ret.contains(l)){
+					ret.add(l);
+				}
 			}
 		}
 		

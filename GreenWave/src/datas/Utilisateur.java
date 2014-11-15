@@ -1,11 +1,13 @@
 package datas;
 
+import android.util.Log;
+
 public class Utilisateur {
 	
 	private String idFacebook, nom, prenom;
 	private int id, quota, nbHorairesAjoutees, nbErreurs, nbApprobations, statut;
 	
-	public final static int BANNI=-1, NOMAJ=0, NOUVEAU=1, HABITUE=2, EXPERT=3, MEMBRE = 4,ADMINISTRATEUR=5;
+	public final static int BANNI=-1, NOMAJ=0, NOUVEAU=1, HABITUE=2, EXPERT=3, MEMBRE = 4,ADMINISTRATEUR=10;
 
 	public Utilisateur(){
 		this.id=-1;
@@ -150,15 +152,15 @@ public class Utilisateur {
 		this.quota=quota-1;
 	}
 	
-	public float getRatio(){
+	public int getRatio(){
 		if(nbErreurs==0){
-			return 1;
+			return 100;
 		}
 		else if(nbHorairesAjoutees==0){
 			return 0;
 		}
 		else{
-			return nbErreurs/nbHorairesAjoutees;
+			return (int) (((float)(nbErreurs*100)/(nbHorairesAjoutees*100))*100);
 		}	
 	}
 	

@@ -91,6 +91,12 @@
         	android:theme="@style/Theme.Greenwav">
          </activity>
          
+         <activity
+            android:name="view.activities.APropos"
+           	android:icon="@drawable/greenwav_ico_white"
+        	android:theme="@style/Theme.Greenwav">
+         </activity>
+         
           <activity
             android:name="view.activities.Horaire"
            	android:icon="@drawable/greenwav_ico_white"

@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.Marker;
 
 import datas.Arret;
 import datas.Ligne;
+import datas.Place;
 
 /**
  *	© Copyright 2014 Antoine Sauray
@@ -60,8 +61,18 @@ public class KiceoControl implements Globale, OnInfoWindowClickListener, OnMarke
 		@Override
 		public void onInfoWindowClick(Marker marker) {
 			// TODO Auto-generated method stub
-			int i = 0;
 			boolean isPlace=false;
+			Marker[] places = Globale.engine.getPlacesMarkers();
+			if(marker.getTitle().equals("Destination")){
+				isPlace=true;
+			}
+			else{
+				for(int i=0;i<places.length;i++){
+					if(places[i]!=null && places[i].getTitle().equals(marker.getTitle())){
+						isPlace=true;
+					}
+				}
+			}
 
 			if(!isPlace){
 			Ligne l = Globale.engine.getLigneCourante();
@@ -74,16 +85,20 @@ public class KiceoControl implements Globale, OnInfoWindowClickListener, OnMarke
 						//TabbedDialog td = new TabbedDialog(a, marker.getTitle());
 						//td.show();
 						Intent intent = new Intent(a, Horaire.class);
-						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						a.startActivity(intent);
 					}
+					else{
+						
+					}
+				}
+				else{
+					
 				}
 			}
 			else{
 				// Un lieu a été selectionné
 				Globale.engine.setDestination(marker);
 				Intent intent = new Intent(a, Route.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				a.startActivity(intent);
 			}
 		}

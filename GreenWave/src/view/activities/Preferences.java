@@ -54,7 +54,6 @@ public class Preferences extends PreferenceActivity {
             Preference connectionPref = findPreference("pref_map_type");
             // Set summary to be the user-description for the selected value
             connectionPref.setSummary(getPreferenceScreen().getSharedPreferences().getString("pref_map_type", "Normale"));
-            
             JuniorDAO dao = new JuniorDAO(this.getActivity());
             dao.open();
             ArrayList<Reseau> reseaux = dao.findReseaux();

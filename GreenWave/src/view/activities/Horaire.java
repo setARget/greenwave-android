@@ -64,7 +64,6 @@ public class Horaire extends Activity implements OnCheckedChangeListener{
     	switch (item.getItemId()) {
         case R.id.home:
         	this.finish();
-            return true;
         case R.id.addhoraire:
         	SharedPreferences settings = getSharedPreferences(KiceoDatas.PREFS_NAME, 0);
         	boolean fb_logged = settings.getBoolean("fb_logged", false);
@@ -91,7 +90,7 @@ public class Horaire extends Activity implements OnCheckedChangeListener{
 		    			                // Write your code here to execute after dialog closed
 		    			                	final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);     
 		    			                	emailIntent.setType("plain/text");     
-		    			                	emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"antoine@sauray.me"});     
+		    			                	emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"wavon.contact@gmail.com"});     
 		    			                	emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Réclamation bloquage horaire"); 
 		    			                	String text = "nom : "+Globale.engine.getUtilisateur().getNom()+"\n";
 		    			                	text += "prénom : "+Globale.engine.getUtilisateur().getPrenom()+"\n";
@@ -118,7 +117,7 @@ public class Horaire extends Activity implements OnCheckedChangeListener{
 		    			                // Write your code here to execute after dialog closed
 		    			                	final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);     
 		    			                	emailIntent.setType("plain/text");     
-		    			                	emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"antoine@sauray.me"});     
+		    			                	emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"wavon.contact@gmail.com"});     
 		    			                	emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Réclamation bannissement"); 
 		    			                	String text = "nom : "+Globale.engine.getUtilisateur().getNom()+"\n";
 		    			                	text += "prénom : "+Globale.engine.getUtilisateur().getPrenom()+"\n";
@@ -175,8 +174,24 @@ public class Horaire extends Activity implements OnCheckedChangeListener{
 	        	
         	}
         	else{
-        		Intent intent = new Intent(Horaire.this, FBLogin.class);
-    	    	startActivity(intent);
+        		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    			builder.setTitle("Ajout d'horaires");
+    			builder.setMessage("Pour ajouter des horaires, une connexion à votre compte Facebook est requise.");
+			   	//alertDialog.setIcon(R.drawable.tick);
+			 // Setting OK Button
+    			builder.setPositiveButton("Se connecter", new DialogInterface.OnClickListener() {
+		                public void onClick(DialogInterface dialog, int which) {
+		                // Write your code here to execute after dialog closed
+		                	Intent intent = new Intent(Horaire.this, FBLogin.class);
+		            		startActivity(intent);
+		                }
+		        });
+    			builder.setNegativeButton("Continuer", new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int which) {
+	                // Write your code here to execute after dialog closed
+	                }
+	        });
+			   	builder.show();
         	}
         default:
             return super.onOptionsItemSelected(item);

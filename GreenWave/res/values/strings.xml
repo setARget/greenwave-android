@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Green Wav</string>
+    <string name="app_name">Green Wav\'</string>
     <string name="app_id">367316096764556</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Réglages</string>
@@ -9,7 +9,7 @@
     <string name="cancel">Annuler</string>
     <string name="ctrl">Ctrl logo</string>
     <string name="companies">Companies de transport</string>
-    <string name="twitter_error">Aucun flux Twitter disponible</string>
+    <string name="twitter_not_connected">Zut, Vous n\'êtes pas connecté à un réseau</string>
     <string name="favoris">Favoris</string>
     <string name="historique">Historique</string>
     <string name="autre">Autres</string>

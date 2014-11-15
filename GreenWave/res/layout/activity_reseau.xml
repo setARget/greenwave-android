@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="fill_parent" 
         android:layout_width="fill_parent"
         android:orientation="vertical">
@@ -8,7 +8,11 @@
         <ListView
 	       	android:id="@+id/list_reseau_offline"
 	        android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
+    		android:layout_height="fill_parent"
+			android:divider="@null"
+			android:dividerHeight="10dp"
+			android:listSelector="@android:color/transparent" 
+			android:cacheColorHint="@android:color/transparent"
 			android:headerDividersEnabled="true"
 			android:footerDividersEnabled="true"
 			android:layout_marginLeft="10dp"
@@ -17,11 +21,9 @@
         	
     	<RelativeLayout
 								    android:id="@+id/loadingPanel"
-								    android:layout_below="@+id/list_reseau_offline"
 								    android:layout_width="match_parent"
 								    android:layout_height="wrap_content"
-								    android:gravity="center" 
-								    android:layout_centerInParent="true">
+								    android:gravity="center" >
 								
 								    <ProgressBar
 								        android:id="@+id/loading"
@@ -39,17 +41,6 @@
 						            	android:textSize="12sp"
 					            	/>
 		</RelativeLayout>
-		<ListView
-	       	android:id="@+id/list_reseau_online"
-	       	android:visibility="gone"
-	       	android:layout_below="@+id/loadingPanel"
-	        android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-			android:headerDividersEnabled="true"
-			android:footerDividersEnabled="true"
-			android:layout_marginLeft="10dp"
-			android:layout_marginRight="10dp">
-    	</ListView>
     	
-   </RelativeLayout>
+   </LinearLayout>
     

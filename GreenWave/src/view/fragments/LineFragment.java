@@ -127,7 +127,7 @@ public class LineFragment extends Fragment{
 	 */
 	private void attachReactions(){
 		ArrayList<Ligne> lignes = new ArrayList<Ligne>(Globale.engine.getReseau().getLignes().values());
-		listAdapter = new LineList(getActivity(), lignes, home);
+		listAdapter = new LineList(getActivity(), lignes);
 		list.setAdapter(listAdapter);
 		list.setOnItemClickListener(new LineClickListener(home));
 	}
@@ -202,7 +202,7 @@ public class LineFragment extends Fragment{
 		    
 		}
 	    Collections.sort(lignes);
-	    listAdapter = new LineList(v.getContext(), lignes, home);
+	    listAdapter = new LineList(v.getContext(), lignes);
 	    list.setAdapter(listAdapter);
 	    list.invalidate();
 

@@ -7,10 +7,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.wavon.greenwave.R;
 
 import datas.db.external.didier.GetReseaux;
+import datas.utility.NetworkUtil;
 
 /**
  * © Copyright 2014 Antoine Sauray
@@ -31,7 +33,7 @@ public class SelectionReseau extends FragmentActivity{
         initInterface();
         attachReactions();
         Log.d("New Activity", "Selecting Company");
-		new GetReseaux(this, listOffline, listOnline, layout).execute();
+		new GetReseaux(this, listOffline, layout).execute();
     }
 	
     @Override
@@ -54,7 +56,6 @@ public class SelectionReseau extends FragmentActivity{
      */
 	private void initInterface() {
 		//listOffline = (ListView) this.findViewById(R.id.list_reseau_offline);
-		listOnline = (ListView) this.findViewById(R.id.list_reseau_online);
 		listOffline = (ListView) this.findViewById(R.id.list_reseau_offline);
 		layout = (RelativeLayout) this.findViewById(R.id.loadingPanel);
 	}

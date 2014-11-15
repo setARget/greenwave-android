@@ -24,6 +24,15 @@
              android:textSize="16sp"
              android:layout_toRightOf="@+id/drawer_fb"
              android:layout_centerVertical="true"/>
+            
+            <RatingBar
+             android:id="@+id/etoiles"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_toRightOf="@+id/drawer_fb"
+             android:layout_below="@+id/nomFB"
+             android:scaleX="0.8"
+             android:scaleY="0.8"/>
     	</RelativeLayout>
         
 		<RelativeLayout

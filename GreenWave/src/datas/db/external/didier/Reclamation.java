@@ -5,6 +5,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import control.Globale;
+
 import android.util.Log;
 
 public class Reclamation extends Thread{
@@ -30,6 +32,7 @@ public class Reclamation extends Thread{
 		        	URL url = new URL(sb.toString());
 		        	url.openStream();     			
 		        	Log.d("insertion", "insertion");
+		        	Globale.engine.getUtilisateur().decrementQuota();
 			    } catch (MalformedURLException e) {
 
 			    } 

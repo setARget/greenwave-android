@@ -39,69 +39,45 @@ import datas.Ligne;
 import datas.Reseau;
 import datas.db.internal.JuniorDAO;
 
-public class GetReseaux extends AsyncTask<Void, String, ArrayList<Reseau>> {
+public class GetReseaux extends AsyncTask<Void, Reseau, ArrayList<Reseau>> {
 	
 	private int idReseau;
 	private RelativeLayout layout;
 	private TextView operation;
-	private ListView lv_offline, lv_online;
+	private ListView lv_offline;
 	private Activity a;
-	ArrayList<Reseau> offline = new ArrayList<Reseau>();
+	ArrayList<Reseau> reseaux = new ArrayList<Reseau>();
 
-	public GetReseaux(Activity a, ListView lv_offline, ListView lv_online, RelativeLayout layout){
+	public GetReseaux(Activity a, ListView lv_offline, RelativeLayout layout){
 		idReseau=-1;
 		this.layout=layout;
-		this.lv_online = lv_online;
 		this.a=a;
 		layout.setVisibility(View.VISIBLE);
-		lv_online.setVisibility(View.GONE);
+		//lv_online.setVisibility(View.GONE);
 		operation = (TextView) a.findViewById(R.id.operation);
-		offline = new ArrayList<Reseau>();
+		reseaux = new ArrayList<Reseau>();
+		this.lv_offline=lv_offline;
 		getLocalReseau(lv_offline);
 	}
 	
-	public GetReseaux(Activity a, ListView lv_offline, ListView lv_online, RelativeLayout layout, Reseau r){
+	public GetReseaux(Activity a, ListView lv_offline, RelativeLayout layout, Reseau r){
 		idReseau = r.getIdBdd();
 		this.layout=layout;
 		this.lv_offline = lv_offline;
-		this.lv_online = lv_online;
 		this.a=a;
-		layout.setVisibility(View.VISIBLE);
-		lv_online.setVisibility(View.GONE);
+		//layout.setVisibility(View.VISIBLE);
+		//lv_online.setVisibility(View.INVISIBLE);
 		operation = (TextView) a.findViewById(R.id.operation);
-		offline = new ArrayList<Reseau>();
+		reseaux = new ArrayList<Reseau>();
 		getLocalReseau(lv_offline);
 	}
 	
 	@Override
 	protected ArrayList<Reseau> doInBackground(Void... params) {
 		// TODO Auto-generated method stub
-		ArrayList<Reseau> ret = new ArrayList<Reseau>();
-		getOnlineReseau(ret);
-		return ret;
-   
-    }
-
-	private void getLocalReseau(ListView lv_offline){
-
-		JuniorDAO dao = new JuniorDAO(a);
-		dao.open();
-		Iterator<Reseau> it = dao.findReseaux().iterator();
-		while(it.hasNext()){
-			Reseau r = it.next();
-			offline.add(r);
-		}
-		ReseauList adapter = new ReseauList(a, offline);
-		lv_offline.setAdapter(adapter);
-	    lv_offline.setOnItemClickListener(new ReseauOnClickListener(a));
-	    lv_offline.setVisibility(View.VISIBLE);
-	    dao.close();
-	}
-	
-	private void getOnlineReseau(ArrayList<Reseau> ret){
 		StringBuilder jsonResult = new StringBuilder();
 		final String BASE_URL = "http://sauray.me/green_wave/reseau.php?";
-
+		ArrayList<Reseau> ret = new ArrayList<Reseau>();
  
 		 HttpURLConnection conn = null;
 		    try {
@@ -127,13 +103,18 @@ public class GetReseaux extends AsyncTask<Void, String, ArrayList<Reseau>> {
         			JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
         			int id = jsonChildNode.optInt("id");
         			String nom = jsonChildNode.optString("nom");
+        			double latitude = jsonChildNode.optDouble("latitude");
+        			double longitude = jsonChildNode.optDouble("longitude");
         			String twitter = jsonChildNode.optString("twitter");
         			String image = jsonChildNode.optString("image");
         			int version = jsonChildNode.optInt("version");
-        			Reseau reseau = new Reseau(id, nom, twitter, image, version);
+        			
+        			Log.d("Position", "longitude : "+longitude+ "- latitude : "+latitude);
+        			Reseau reseau = new Reseau(id, latitude, longitude, nom, twitter, image, version);
 
-        			if(!(offline.toString().contains(reseau.toString()))){
+        			if(!(reseaux.toString().contains(reseau.toString()))){
         				ret.add(reseau);
+        				this.publishProgress(reseau);
         			}
         			Log.d(reseau.toString(), "Nouveau réseau découvert");
         		}
@@ -149,19 +130,37 @@ public class GetReseaux extends AsyncTask<Void, String, ArrayList<Reseau>> {
 		            conn.disconnect();
 		        }
 		    }
+		return ret;
+    }
+
+	private ArrayList<Reseau> getLocalReseau(ListView lv_offline){
+
+		JuniorDAO dao = new JuniorDAO(a);
+		dao.open();
+		ArrayList<Reseau> ret = dao.findReseaux();
+		Iterator<Reseau> it = ret.iterator();
+		while(it.hasNext()){
+			Reseau r = it.next();
+			reseaux.add(r);
+		}
+		ReseauList adapter = new ReseauList(a, reseaux);
+		lv_offline.setAdapter(adapter);
+	    lv_offline.setOnItemClickListener(new ReseauOnClickListener(a));
+	    lv_offline.setVisibility(View.VISIBLE);
+	    dao.close();
+	    
+	    return ret;
 	}
 	
 	@Override
-	protected void onPostExecute(ArrayList<Reseau> result) {
-	    super.onPostExecute(result);
-	    ArrayAdapter<Reseau> adapter = new ArrayAdapter<Reseau>(a, R.layout.list_reseau, R.id.nom, result);
-	    lv_online.setAdapter(adapter);
-	    lv_online.setOnItemClickListener(new ReseauOnClickListener(a));
-	    layout.setVisibility(View.GONE);
-	    lv_online.setVisibility(View.VISIBLE);
+	protected void onProgressUpdate(Reseau... progress) {
+		reseaux.add(progress[0]);
+		ReseauList adapter = new ReseauList(a, reseaux);
+	    lv_offline.setAdapter(adapter);
+	    lv_offline.invalidate();
+	    layout.setVisibility(View.INVISIBLE);
 	}
-	    
-		
+	
 }
 
 

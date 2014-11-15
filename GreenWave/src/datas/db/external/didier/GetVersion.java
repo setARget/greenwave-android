@@ -34,6 +34,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -67,13 +68,22 @@ public class GetVersion extends AsyncTask<Void, String, Integer> {
 	 	dao.close();
 	 	int ret = -1;
 		    if(reseaux.size()!=0) {
-		    	Reseau r = reseaux.get(0);
+		    	String reseauStr = PreferenceManager.getDefaultSharedPreferences(this.a).getString("pref_reseau","Aucun réseau");
+		    	Log.d(reseauStr, "reseauStr");
+		    	Iterator<Reseau> it = reseaux.iterator();
+		    	while(it.hasNext()){
+		    		Reseau rNew = it.next();
+		    		if(rNew.toString().equals(reseauStr)){
+		    			Log.d(rNew.toString(), "rNew");
+		    			reseau=rNew;
+		    		}
+		    	}
 		        //Success! Do what you want
 		    	if(NetworkUtil.isConnected(a)){
-		    		ret = this.getVersion(r);
+		    		ret = this.getVersion(reseau);
 		    	}
 		    	else{
-		    		ret = r.getVersion();
+		    		ret = reseau.getVersion();
 		    	}
 		    }	  	  
 		return ret;

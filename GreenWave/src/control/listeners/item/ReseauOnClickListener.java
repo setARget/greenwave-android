@@ -1,9 +1,12 @@
 package control.listeners.item;
 
+import java.util.Iterator;
+
 import view.activities.Home;
 import control.Globale;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -24,17 +27,27 @@ public class ReseauOnClickListener implements OnItemClickListener{
 			long id) {
 		// TODO Auto-generated method stub
 		Reseau r = (Reseau) parent.getItemAtPosition(position);
+		Log.d("Réseau local", "Reseau clické");
 		JuniorDAO dao = new JuniorDAO(c);
 		dao.open();
-		if(dao.findReseaux().toString().contains(r.toString())){
+		Iterator<Reseau> it = dao.findReseaux().iterator();
+		dao.close();
+		boolean foundReseauLocally=false;
+		while(it.hasNext() && foundReseauLocally==false){
+			Reseau reseau = it.next();
+			if(reseau.getIdBdd()==r.getIdBdd()){
+				foundReseauLocally=true;
+				Log.d("Réseau local", r.toString()+" a été trouvé localement");
+			}
+		}
+		if(foundReseauLocally==true){
 			// Le réseau est déjà téléchargé
-			dao.close();
+
 			Globale.engine.setReseau(r, c);
 			Intent home = new Intent(c, Home.class);
 	  	    c.startActivity(home);
 		}
 		else{
-			dao.close();
 			new DownloadFullReseau(c, r).execute();
 		}
 
